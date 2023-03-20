@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up Page</title>
+  </head>
+  <body>
+    <h1>Sign Up Page</h1>
+    <form method="POST" onsubmit="return validateForm()" action="/signup">
+      <label>
+        Email:
+        <input type="email" id="email" name="email" required />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input type="password" password="password" name="password" required />
+      </label>
+      <br />
+      <input type="submit" value="Sign Up" />
+    </form>
+
+    <div>test email: testemail1@liv.in</div>
+    <div>test password: P@ssword123</div>
+
+    <script src="./js/validate.js"></script>
+  </body>
+</html>

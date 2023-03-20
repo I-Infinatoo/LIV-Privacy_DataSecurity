@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+  <h1>Login</h1>
+  <form method="POST" onsubmit="return validateForm()" action="/login">
+    <div>
+      <label>Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+      <label>Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Login</button>
+  </form>
+
+  <div>test email: testemail1@liv.in</div>
+  <div>test password: P@ssword123</div>
+
+  <script src="./js/validate.js"></script>
+</body>
+</html>
