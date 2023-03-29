@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
-const {isValidSessionToken} = require('../utils/sessionTokenUtil');
+const tokenUtils = require('../utils/sessionTokenUtil');
 
 router.get('/', (req, res) => {
     console.log('inside the welcome route');
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
     console.log('got token from req');
 
     // Check if the session token is valid
-    if (isValidSessionToken(sessionToken)) {
+    if (tokenUtils.isValidSessionToken(sessionToken)) {
         // Render the welcome page
         console.log('varified the token');
         res.sendFile(path.join(__dirname, '../public/', 'welcomePage.html'));

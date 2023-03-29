@@ -30,4 +30,20 @@ function isValidSessionToken(sessionToken ) {
     return false;  
 }
 
-module.exports = {isValidSessionToken};
+function addToken(sessionToken, email) {
+    const sessionTokensPath = 'session_tokens.json'; // path to session tokens file
+
+    let sessionTokens;
+    try{
+      sessionTokens = JSON.parse(fs.readFileSync(`${sessionTokensPath}`));
+    } catch (err) {
+      sessionTokens = {};
+    }
+    sessionTokens[email] = sessionToken;
+  
+    fs.writeFileSync(`${sessionTokensPath}`, JSON.stringify(sessionTokens));
+}
+module.exports = {
+    isValidSessionToken, 
+    addToken
+};

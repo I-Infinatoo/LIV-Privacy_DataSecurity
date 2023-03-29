@@ -7,6 +7,8 @@ const uuid = require('uuid').v4;  // for session token
 const passwordUtils = require('../utils/passwordUtil'); // import passwordUtils module
 // const {validateEmail, validatePassword} = require('../utils/pass-emailFormatChecker');
 
+const tokenUtils = require('../utils/sessionTokenUtil');    // to manage tokens
+
 router.get('/', (req, res) => {
   // res.sendFile('./../public/loginPage.html');
   res.sendFile(path.join(__dirname, '/../public/loginPage.html'));
@@ -15,7 +17,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const { email, password } = req.body;
   const credentialsPath = 'credentials.json';
-  const sessionTokensPath = 'session_tokens.json'; // path to session tokens file
+  
 
   // Check if credentials.json file exists and read the file
   let credentials;
@@ -44,15 +46,7 @@ router.post('/', (req, res) => {
   const sessionToken = uuid();
 
   // write the session token to the session_tokens file
-  let sessionTokens;
-  try{
-    sessionTokens = JSON.parse(fs.readFileSync(`${sessionTokensPath}`));
-  } catch (err) {
-    sessionTokens = {};
-  }
-  sessionTokens[email] = sessionToken;
-
-  fs.writeFileSync(`${sessionTokensPath}`, JSON.stringify(sessionTokens));
+  tokenUtils.addToken(sessionToken, email);
 
   // set the sessionToken as the cookie
   res.cookie('sessionToken', sessionToken);
