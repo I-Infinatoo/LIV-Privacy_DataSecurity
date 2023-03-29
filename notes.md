@@ -1,6 +1,7 @@
 ## pre-requisits:
 
 1. `credentils.json` must be present with the permissions.
+2. `session_tokens.json` should also be present with the permissions.
 
 
 ## done:
@@ -26,9 +27,13 @@
 
 4. only one entry is allowed all the time in the `credentials.json` file.
 
+5. session management 
+
 ## remaining:
 
 1. Use `credentails.txt` instead of `credentials.json`. 
 
 2. check for the empty port, in case `3000` is engaged.
+
+3. expire the session when browser gets closed or service(tool) stops. How will we check if the browser is closed?
   

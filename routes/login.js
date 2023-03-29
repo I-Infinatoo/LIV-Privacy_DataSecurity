@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
   tokenUtils.addToken(sessionToken, email);
 
   // set the sessionToken as the cookie
-  res.cookie('sessionToken', sessionToken);
+  res.cookie('sessionToken', sessionToken, {httpOnly:true});
 
   // Password is valid, return success message
   // res.status(200).send('Login successful');

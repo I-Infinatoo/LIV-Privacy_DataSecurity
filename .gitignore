@@ -1,3 +1,5 @@
 node_modules
 *.rar
 *.zip
+session_tokens.json
+credentials.json
