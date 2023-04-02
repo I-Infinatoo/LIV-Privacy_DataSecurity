@@ -2,7 +2,7 @@
   "scripts": {
     "start": "node app.js",
     "ignore: it is a comment: --ext will instruct nodemon to only look for the changes in specified files.": "",
-    "dev": "nodemon --ext js,html app.js"
+    "dev": "nodemon --ext js,html,css app.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
