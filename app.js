@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const window = require('window');
+const net = require('net');
+
 const signupRoute = require('./routes/signup');
 const loginRoute = require('./routes/login');
 const welcomeRoute = require('./routes/welcome');
@@ -19,14 +20,6 @@ app.use(bodyParser.json());
 
 // Set up static file serving middleware
 app.use(express.static(path.join(__dirname, 'public')));
-
-/*
-// Add a route to handle the request to notify the server that the user has closed the browser
-app.post('/browser-closed', (req, res) => {
-  console.log('User has closed the browser');
-  res.sendStatus(200);
-});
-*/
 
 // Set up index route
 app.get('/', (req, res) => {
@@ -48,14 +41,46 @@ app.use((err, req, res, next) => {
   res.status(500).send('Internal server error');
 });
 
-// Start server
+// check and start the server on the next available port
+function portIsFree(port) {
+  return new Promise((resolve) => {
+    const server = net.createServer();
+
+    server.on('error', () => {
+      resolve(false);
+    });
+
+    server.on('listening', () => {
+      server.close(() => {
+        resolve(true);
+      });
+    });
+
+    server.listen(port);
+  });
+}
+async function startServer(port) {
+
+  if(port >= 65535) {
+    console.log('No port is available! checked till port number: 65535');
+    return;
+  }
+  const isFree = await portIsFree(port);
+
+  if (isFree) {
+    app.listen(port, () => {
+      console.log(`Server started on port ${port}`);
+    });
+  } else { 
+    // if not free then check for the next port
+    console.log(`Port ${port} is already in use`);
+    startServer(port + 1);
+  }
+}
+startServer(port);
+
+/*// Start server
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
-
-// // Listen for beforeunload event on client-side
-// window.addEventListener('beforeunload', () => {
-//   const xhr = new XMLHttpRequest();
-//   xhr.open('POST', '/close-browser', true);
-//   xhr.send();
-// });
+*/
