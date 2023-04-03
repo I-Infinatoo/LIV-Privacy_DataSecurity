@@ -3,3 +3,4 @@ node_modules
 *.zip
 session_tokens.json
 credentials.json
+release/*
