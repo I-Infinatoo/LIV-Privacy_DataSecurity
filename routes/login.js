@@ -11,7 +11,7 @@ const tokenUtils = require('../utils/sessionTokenUtil');    // to manage tokens
 
 router.get('/', (req, res) => {
   // res.sendFile('./../public/loginPage.html');
-  res.sendFile(path.join(__dirname, '/../public/loginPage.html'));
+  res.sendFile(path.join(__dirname, '/../public/index.html'));
 });
 
 router.post('/', (req, res) => {

@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="/css/style.css">
     <title>Sign Up Page</title>
   </head>
   <body>
     <h1>Sign Up Page</h1>
     <form method="POST" onsubmit="return validateForm()" action="/signup">
-      <label>
-        Email:
-        <input type="email" id="email" name="email" required />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input type="password" password="password" name="password" required />
-      </label>
-      <br />
+      <label for="email"><input type="email" name="email" Id="email" placeholder="Enter your email Id" required></label><br>
+        <label for="password"><input type="password" name="password" Id="password" placeholder="Enter your password" required></label><br>
+        <label for="cpassword"><input type="cpassword" name="cpassword" Id="password" placeholder="Confirm password" required></label><br>
+
       <input type="submit" value="Sign Up" />
+      <p id="first">Back to<a href="/index.html"> Login</a></p>
+
     </form>
 
     <div>test email: testemail1@liv.in</div>
