@@ -5,12 +5,16 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
   </head>
   <body>
-    <h1>Welcome to Test Project</h1>
-    <p>Please choose an option:</p>
-    <div>
-      <a href="/signup"><button>Sign Up</button></a>
-      <a href="/login"><button>Login</button></a>
-    </div>
+    <form method="POST" onsubmit="return validateForm()" action="/login">
+      <label for="email"><input type="email" Id="email" name="email" placeholder="Enter your email Id" required></label><br>
+      <label for="password"><input type="password" Id="password" name="password" placeholder="Enter your password" required></label><br>
+      <input type="submit" class="submit" placeholder="Login" >
+      <p id="first">New Here? <a href="/signup">SignUp</a></p>
+      <!-- <p><a href="/home.html">home</a></p> -->
+
+  </form>
+  <script src="./js/validate.js"></script>
+
 
     <!-- <script>
                     let buttonClicked = false;
