@@ -1,6 +1,7 @@
 ## done:
 
 1. the final file structure is:
+
     ```
     root directory: testproject_liv
     app.js: testproject_liv/app.js
@@ -41,3 +42,4 @@
 3. setup the environment using scripts
 4. make installer
 5. integrate core functions
+6. delete the session file when sever restarts or closes
