@@ -3,10 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script>
+        function showOptions() {
+          var selection = document.getElementsByName("typeEncDec");
+          var options = document.getElementById("encLevel");
+        
+          for (var i = 0; i < selection.length; i++) {
+            if (selection[i].checked && selection[i].value === "encrypt") {
+              options.style.display = "block";
+              return;
+            }
+          }
+        
+          options.style.display = "none";
+        }
+        </script>
+    <link rel="stylesheet" href="/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome Page</title>
 </head>
 <body>
-    <div><p>Welcome user</p></div>
+    <form action="">
+        <label for="path"><input type="text" name="path" id="path" placeholder="Enter Path"></label>
+        <p> You want to Encrypt or Decrypt your file?</p><br>
+        <div class="rbuttons">
+            <label for="typeEncDec" class="typeEncDec"><input type="radio" name="typeEncDec" value="encrypt" onclick="showOptions()"> Encryption </label>
+            <label for="typeEncDec" class="typeEncDec"><input type="radio" name="typeEncDec" value="decrypt" onclick="showOptions()"> Decryption<br><br></label>
+        </div>
+        
+
+<div id="encLevel"  style="display:none;" >
+  <label for="level" class="level"><input type="radio" name="option" value="1"> Level 1<br></label>
+  <label for="level" class="level"><input type="radio" name="option" value="2"> Level 2<br></label>
+  <label for="level" class="level"><input type="radio" name="option" value="3"> Level 3<br></label>
+</div>
+        <label for="path"><input type="text" name="path" id="path" placeholder=" Follow path "></label>
+
+    </form>
 </body>
 </html>
