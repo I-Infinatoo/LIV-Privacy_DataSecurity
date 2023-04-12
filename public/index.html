@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Project</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
   </head>
@@ -14,40 +17,6 @@
 
   </form>
   <script src="./js/validate.js"></script>
-
-
-    <!-- <script>
-                    let buttonClicked = false;
-
-                    // Add event listeners to buttons within the page
-                    document.querySelectorAll('button').forEach((button) => {
-                      button.addEventListener('click', () => {
-                        // Set buttonClicked flag to true
-                        buttonClicked = true;
-
-                        // Set buttonClicked flag back to false after a short delay
-                        setTimeout(() => {
-                          buttonClicked = false;
-                        }, 100);
-                      });
-                    });
-
-                    window.addEventListener('beforeunload', (event) => {
-                      // Check if buttonClicked flag is true
-                      if (buttonClicked) {
-                        // Prevent beforeunload event from being triggered
-                        return;
-                      }
-
-                      // Cancel the event as stated by the standard.
-                      event.preventDefault();
-                      // Chrome requires returnValue to be set.
-                      event.returnValue = '';
-
-                      // Send a request to the server to notify it that the user has closed the browser
-                      fetch('/browser-closed', { method: 'POST' });
-                    });
-    </script> -->
 
   </body>
 </html>

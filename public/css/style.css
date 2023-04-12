@@ -1,6 +1,8 @@
 body{
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE1mBYLwDXbV6SwDT6aDN6HUiCWv6PuuK3pQ&usqp=CAU);
+    /* background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE1mBYLwDXbV6SwDT6aDN6HUiCWv6PuuK3pQ&usqp=CAU); */
     /* background-repeat: no-repeat; */
+    /* background-color: rgb(26, 31, 123); */
+    background-image: url("../assets/backgroundImage.jfif");
 }
 h1{
     margin-top: 5%;
@@ -21,7 +23,8 @@ form{
 
 .level,.typeEncDec{
     accent-color: rgb(125, 203, 251);
-    color: aliceblue;
+    /* color: aliceblue; */
+    color: black;
     /* text-align: center; */
     /* margin: 25%; */
     font-family:Georgia, Verdana, sans-serif;
@@ -30,11 +33,12 @@ form{
 
 .rbuttons,#encLevel{
     text-align: center;
-    accent-color: rgb(125, 203, 251);
+    /* accent-color: rgb(125, 203, 251); */
+    color: black;
     /* margin-left: 25%; */
 }
 
-label #email,#password,#path{
+label #email,#password,#path,#cpassword{
   
     /* padding-left:10%; */
     text-align: center;
@@ -42,7 +46,8 @@ label #email,#password,#path{
     margin-top:10%;
     margin-bottom:10%;
      margin-left:20%;
-    color: aliceblue;
+    /* color: aliceblue; */
+    color: black;
      background-color: rgba(218, 214, 214, 0.295);
     height: 40px;
     width:50%;
@@ -52,7 +57,8 @@ label #email,#password,#path{
 
 p{
     /* color:rgb(213, 202, 202);   */
-    color: aliceblue;
+    /* color: aliceblue; */
+    color: black;
     font-family:Georgia, Verdana, sans-serif;
     font-size:large;
     margin-top:10px;
@@ -66,11 +72,13 @@ p{
     margin-bottom:10px;
      margin-left:40%;
     text-align: center;
-    color:white;
+    /* color:white; */
+    color: black;
 }
 p #first{
     /* color:rgb(213, 202, 202);   */
-    color: aliceblue;
+    /* color: aliceblue; */
+    color: black;
     font-family:Georgia, Verdana, sans-serif;
     font-size:medium;
     margin-top:10px;
@@ -80,7 +88,8 @@ p #first{
 }
 a{
     /* color:rgb(213, 202, 202);   */
-    color: aliceblue;
+    /* color: aliceblue; */
+    color: black;
     font-family:Georgia, Verdana, sans-serif;
     font-size: medium;
     margin-top:10px;
