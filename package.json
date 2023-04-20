@@ -8,7 +8,7 @@
     "start": "node app.js",
     "ignore: it is a comment: --ext will instruct nodemon to only look for the changes in specified files.": "",
     "dev": "nodemon --ext js,html,css app.js",
-    "build": "npx pkg -t win,linux,macos -p node_modules,public,routes,utils . --out-path release"
+    "build": "npx pkg -t win,linux,macos -p node_modules,public,routes,utils,javaProgram . --out-path release"
   },
   "bin": {
     "liv": "app.js"
