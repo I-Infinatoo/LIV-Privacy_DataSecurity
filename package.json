@@ -8,7 +8,7 @@
     "start": "node app.js",
     "ignore: it is a comment: --ext will instruct nodemon to only look for the changes in specified files.": "",
     "dev": "nodemon --ext js,html,css app.js",
-    "build": "npx pkg -t win,linux,macos -p node_modules,public,routes,utils . --out-path release"
+    "build": "npx pkg -t win,linux,macos -p node_modules,public,routes,utils,javaProgram . --out-path release"
   },
   "bin": {
     "liv": "app.js"
@@ -29,8 +29,9 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
-    "uuid": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
     "pkg": "^5.8.1",
+    "uuid": "^9.0.0",
     "window": "^4.2.7"
   },
   "devDependencies": {
