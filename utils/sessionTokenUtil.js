@@ -20,7 +20,7 @@ function isValidSessionToken(sessionToken ) {
   
     for(let email in sessionTokens) {
         console.log("sessionTokens[email].sessionToken: " + sessionTokens[email]);
-        if(sessionTokens[email] === sessionToken) {
+        if(sessionTokens[email].token === sessionToken && sessionTokens[email].expires > Date.now()) {
             // console.log("sessionTokens[email].sessionToken: " + sessionTokens[email].sessionToken);
             return true;
         }
@@ -39,7 +39,10 @@ function addToken(sessionToken, email) {
     } catch (err) {
       sessionTokens = {};
     }
-    sessionTokens[email] = sessionToken;
+    sessionTokens[email] = {
+        token:sessionToken,
+        sxpires: Date.now()+30*60*1000 // 30 mins from now
+    };
   
     fs.writeFileSync(`${sessionTokensPath}`, JSON.stringify(sessionTokens));
 }
