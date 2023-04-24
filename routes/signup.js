@@ -44,7 +44,9 @@ router.post('/', (req, res) => {
   fs.writeFileSync(credentialsPath, JSON.stringify(credentials));
 
   // Return success message
-  res.status(201).send('User created successfully');
+  // res.status(201).send('User created successfully');
+  res.sendFile(path.join(__dirname, '/../public/index.html'));
+
 });
 
 module.exports = router;
