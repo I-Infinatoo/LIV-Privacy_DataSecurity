@@ -43,3 +43,4 @@
 4. make installer
 5. integrate core functions
 6. delete the session file when sever restarts or closes
+7. include the java files in the installer, explicitely

@@ -41,6 +41,7 @@ router.get('/', (req, res) => {
     } else {
         // Redirect to the login page
         console.log('token not verified, redirecting to login route');
+        // alert('Retry! Login Again');
         res.redirect('/login');
     }
 });
@@ -60,9 +61,11 @@ router.post('/', upload.single('file'), function (req, res) {
         console.log(` ::: level = ${option}`);
         
         const javaProcess = spawn('java', ['-cp', './javaProgram', 'encryptionJava', filePath, option]);
-  
+        let dataReceivedFromProgram='';
+
         javaProcess.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`);
+          dataReceivedFromProgram+=data.toString();
         });
   
         javaProcess.stderr.on('data', (data) => {
@@ -71,8 +74,9 @@ router.post('/', upload.single('file'), function (req, res) {
   
         javaProcess.on('close', (code) => {
           console.log(`child process exited with code ${code}`);
-          res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
-    
+          // res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
+          res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
+
           // delete the uploaded file only after the java program finishes its work
           fs.unlink(filePath, (err) => {
             if (err) {
@@ -88,9 +92,11 @@ router.post('/', upload.single('file'), function (req, res) {
         console.log('Decyption is selected');
   
         const javaProcess = spawn('java', ['-cp', './javaProgram', 'decryptionJava', filePath]);
-  
+        let dataReceivedFromProgram='';
+
         javaProcess.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`);
+          dataReceivedFromProgram+=data.toString();
         });
   
         javaProcess.stderr.on('data', (data) => {
@@ -99,8 +105,11 @@ router.post('/', upload.single('file'), function (req, res) {
   
         javaProcess.on('close', (code) => {
           console.log(`child process exited with code ${code}`);
-          res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
+          // res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
     
+          res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
+
+
           // delete the uploaded file only after the java program finishes its work
           fs.unlink(filePath, (err) => {
             if (err) {
@@ -172,7 +181,9 @@ router.post('/', upload.single('file'), function (req, res) {
     
     }
     else {
-      res.send('No file was uploaded.');
+      // res.send('No file was uploaded.');
+      res.render('upload', { message: 'No file was uploaded.', output: '' });
+
     }
   });
 
