@@ -21,7 +21,7 @@ form,#message{
     width:25%;
 } 
 
-.level,.typeEncDec{
+.level,.typeEncDec,.isShare{
     accent-color: rgb(125, 203, 251);
     /* color: aliceblue; */
     color: black;

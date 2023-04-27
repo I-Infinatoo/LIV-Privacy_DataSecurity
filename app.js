@@ -6,6 +6,7 @@ const net = require('net');
 const signupRoute = require('./routes/signup');
 const loginRoute = require('./routes/login');
 const welcomeRoute = require('./routes/welcome');
+const shareRoute = require('./routes/share');
 
 const app = express();
 const port = 3000;
@@ -34,6 +35,9 @@ app.use('/login', loginRoute);
 
 // set up welcome route
 app.use('/welcome', welcomeRoute);
+
+// share page route
+app.use('/share', shareRoute);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

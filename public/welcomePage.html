@@ -24,8 +24,8 @@
             </label>
           <p> You want to Encrypt or Decrypt your file?</p><br>
           <div class="rbuttons">
-              <label for="typeEncDec" class="typeEncDec"><input type="radio" name="typeEncDec" value="encrypt" onclick="showOptions()"> Encryption </label>
-              <label for="typeEncDec" class="typeEncDec"><input type="radio" name="typeEncDec" value="decrypt" onclick="showOptions()"> Decryption<br><br></label>
+              <label for="typeEncDec" class="typeEncDec"><input type="radio" name="typeEncDec" value="encrypt" onclick="showEncDecOptions()"> Encryption </label>
+              <label for="typeEncDec" class="typeEncDec"><input type="radio" name="typeEncDec" value="decrypt" onclick="showEncDecOptions()"> Decryption<br><br></label>
           </div>
           
   
@@ -38,6 +38,11 @@
             <input type="text" name="path" id="path" placeholder=" Follow path ">
         </label> -->
 
+        <p> You want to share your file?</p><br>
+        <div class="rbuttons">
+            <label for="isShare" class="isShare"><input type="radio" name="isShare" id="isShare" value="Share" onchange="redirectTo('/share')"> Share </label>
+        </div>
+        
         <button type="submit">Upload</button>
       
     </form>
