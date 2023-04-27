@@ -75,7 +75,18 @@ router.post('/', upload.single('file'), function (req, res) {
         javaProcess.on('close', (code) => {
           console.log(`child process exited with code ${code}`);
           // res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
-          res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
+          // res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
+          res.send(`<div id="message">${dataReceivedFromProgram}</div>
+          <script>
+            document.getElementById("message").style.color = "black";
+            
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = "/css/style.css";
+            document.head.appendChild(link);
+          </script>
+        `);
 
           // delete the uploaded file only after the java program finishes its work
           fs.unlink(filePath, (err) => {
@@ -107,8 +118,18 @@ router.post('/', upload.single('file'), function (req, res) {
           console.log(`child process exited with code ${code}`);
           // res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
     
-          res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
-
+          // res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
+          res.send(`<div id="message">${dataReceivedFromProgram}</div>
+          <script>
+            document.getElementById("message").style.color = "black";
+            
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = "/css/style.css";
+            document.head.appendChild(link);
+          </script>
+        `);
 
           // delete the uploaded file only after the java program finishes its work
           fs.unlink(filePath, (err) => {
