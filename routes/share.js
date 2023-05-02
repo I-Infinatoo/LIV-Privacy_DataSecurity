@@ -8,7 +8,7 @@ const fs = require('fs');
 
 const tokenUtils = require('../utils/sessionTokenUtil');
 const emailUtils = require('../utils/sendEmailUtil');
-const filePasswordUtils = require('../utils/filePasswordUtil');
+const {protectWithPassword, removePassword, createPassword} = require('../utils/filePasswordUtil');
 
 
 const storage = multer.diskStorage({
@@ -80,6 +80,7 @@ router.post('/', upload.fields([
         console.log(`encFilePath: ${encFilePath}`);
         
         // 1. call the `send`-java class
+        // java-program will return the key-file-name 
         const javaProcess = spawn('java', ['-cp', './javaProgram', 'send', encFilePath]);
         let dataReceivedFromProgram=null;
 
@@ -100,9 +101,9 @@ router.post('/', upload.fields([
             filePath=filePath.replace(/\\/g, '\\\\');
             
             // protect the file
-            // filePasswordUtils.encrypt(filePath, 'C:\\Users\\ishu1\\OneDrive\\Desktop\\GULAM\\testFolder\\testProject_liv\\UploadedFiles\\tempFile.json', 'Password@234', (PassSuccess) => {
+            protectWithPassword(filePath, createPassword(email, name), (PassSuccess) => {
 
-                // if(PassSuccess) {
+                if(PassSuccess) {
 
                     emailUtils.sendEmailTo(filePath, name, email, (success) => {
                         if(success) {
@@ -131,9 +132,11 @@ router.post('/', upload.fields([
                             `);
                         }
                     });
-            //     }   
+                } else {
+                  res.send('Error protecting file');
+                }  
                 
-            // });
+            });
         });
     }
     // if selected to decrypt the received file 
@@ -143,50 +146,52 @@ router.post('/', upload.fields([
         // 3. display the output(decFilePath)
 
         // remove the password from the Key file
+        removePassword(keyFilePath, keyFilePassphrase, (passSuccess) => {
+          if(passSuccess) {
+            // decrypt the enc_file
+            const javaProcess = spawn('java', ['-cp', './javaProgram', 'decrypt', receivedFilePath, keyFilePath]);
+            let dataReceivedFromProgram=null;
 
-        // decrypt the enc_file
-        const javaProcess = spawn('java', ['-cp', './javaProgram', 'decrypt', receivedFilePath, keyFilePath]);
-        let dataReceivedFromProgram=null;
+            javaProcess.stdout.on('data', (data) => {
+              console.log(`stdout: ${data}`);
+              dataReceivedFromProgram=data.toString(); 
+              dataReceivedFromProgram = path.join(__dirname, '/../UploadedFiles', dataReceivedFromProgram);
+            });
+            
+            javaProcess.stderr.on('data', (data) => {
+                console.error(`stderr: ${data}`);
+            });
+            
+            javaProcess.on('close', (code) => {
+              console.log(`child process exited with code ${code}`);
 
-        javaProcess.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
-          dataReceivedFromProgram=data.toString(); 
-          dataReceivedFromProgram = path.join(__dirname, '/../UploadedFiles', dataReceivedFromProgram);
-        });
-        
-        javaProcess.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
-        });
-        
-        javaProcess.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
-
-            // after decryption, remove the unlocked keyfile
-            res.send(`<div id="message">${dataReceivedFromProgram}</div>
-                        <script>
-                        document.getElementById("message").style.color = "black";
-                        
-                        const link = document.createElement("link");
-                        link.rel = "stylesheet";
-                        link.type = "text/css";
-                        link.href = "/css/style.css";
-                        document.head.appendChild(link);
-                        </script>
-            `);
-        });
-
-
-    } else {
-        res.send(`<div id="message">Working on it...</div>
-            <script>
-                document.getElementById("message").style.color = "black";
-                const link = document.createElement("link");
-                link.rel = "stylesheet";
-                link.type = "text/css";
-                link.href = "/css/style.css";
-                document.head.appendChild(link);
-            </script>
-        `);
+              // after decryption, remove the unlocked keyfile
+              res.send(`<div id="message">${dataReceivedFromProgram}</div>
+                          <script>
+                          document.getElementById("message").style.color = "black";
+                          
+                          const link = document.createElement("link");
+                          link.rel = "stylesheet";
+                          link.type = "text/css";
+                          link.href = "/css/style.css";
+                          document.head.appendChild(link);
+                          </script>
+              `);
+            });
+          } else {
+            res.send(`<div id="message">Invalid Password or Key file</div>
+                          <script>
+                          document.getElementById("message").style.color = "black";
+                          
+                          const link = document.createElement("link");
+                          link.rel = "stylesheet";
+                          link.type = "text/css";
+                          link.href = "/css/style.css";
+                          document.head.appendChild(link);
+                          </script>
+              `);
+          }
+        })
     }
 });
 

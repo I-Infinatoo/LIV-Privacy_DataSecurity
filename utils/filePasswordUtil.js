@@ -1,46 +1,79 @@
 const crypto = require('crypto');
 const fs = require('fs');
-const { Module } = require('module');
 
-const algorithm = 'aes-256-cbc';
-// const password = 'Password@123';
-// const inputFileName = 'keyFile.json';
-// const outputFileName = 'encryptedKeyFile.json';
+function protectWithPassword(filePath, password, callback) {
 
-const encrypt = (inputFileName, outputFileName, password, callback) => {
-  
+    // console.log('Protect pass: ' + password);
+    
+    // Read the contents of the JSON file
+    const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    
+    // Encrypt the JSON data with the password using AES-256-CBC encryption
+    const algorithm = 'aes-256-cbc';
+    const key = crypto.createHash('sha256').update(password).digest();
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(algorithm, key, iv);
+    let encryptedData = cipher.update(JSON.stringify(jsonData), 'utf8', 'hex');
+    encryptedData += cipher.final('hex');
+    
+    // Write the encrypted data back to the file
+    fs.writeFileSync(filePath, JSON.stringify({
+        iv: iv.toString('hex'),
+        encryptedData
+    }));
 
-    const input = fs.createReadStream(inputFileName);
-    console.log('opened inputfile');
-    const output = fs.createWriteStream(outputFileName);
-    console.log('opened outputfile');
-
-  const key = crypto.createHash('sha256').update(password).digest();
-  const cipher = crypto.createCipher(algorithm, key);
-
-  input.pipe(cipher).pipe(output);
-
-  output.on('finish', () => {
-    console.log('Encryption complete');
     callback(true);
-  });
-};
+}
 
-const decrypt = (inputFileName, outputFileName, password) => {
-  const input = fs.createReadStream(inputFileName);
-  const output = fs.createWriteStream(outputFileName);
+function removePassword(filePath, password, callback) {
+    
+    // console.log('remove pass: ' + password);
+    // Read the contents of the encrypted JSON file
+    const { iv, encryptedData } = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    
+    // Decrypt the JSON data with the password using AES-256-CBC encryption
+    const algorithm = 'aes-256-cbc';
+    const key = crypto.createHash('sha256').update(password).digest();
+    const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(iv, 'hex'));
+    let decryptedData;
+    try{
 
-  const key = crypto.createHash('sha256').update(password).digest();
-  const decipher = crypto.createDecipher(algorithm, key);
+        decryptedData = decipher.update(encryptedData, 'hex', 'utf8');
+        decryptedData += decipher.final('utf8');
+    } catch (err) {
+        if (err.message === 'bad decrypt') {
+            console.log('Invalid password');
+            callback(false);
+            return;
+        }
+        throw err;
+    }
 
-  input.pipe(decipher).pipe(output);
+    console.log('decryptedData: ' + decryptedData);
+    decryptedData= '{\n'+decryptedData.substring(1, decryptedData.length-1)+'\n}';
 
-  output.on('finish', () => {
-    console.log('Decryption complete');
-  });
-};
+    // Write the decrypted data back to the file
+    fs.writeFileSync(filePath, decryptedData);
+
+    callback(true);
+}
+
+function createPassword(email, name) {
+    // 4 letters before '@' from email 
+    // 4 letters from name (starting) (all caps)
+
+    // ishurajan@gmail.com
+    const endIdx = email.indexOf("@");
+    const startIdx = Math.max(endIdx-4, 0);
+
+    const firstHalf=email.substring(startIdx, endIdx);
+    const secondHalf=name.substring(0, Math.min(name.length, 4));
+
+    return firstHalf+secondHalf;
+}
 
 module.exports = {
-    encrypt,
-    decrypt
+    protectWithPassword,
+    removePassword,
+    createPassword
 }
