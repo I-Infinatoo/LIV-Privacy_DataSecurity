@@ -85,7 +85,7 @@ router.post('/', upload.fields([
 
         javaProcess.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`);
-          dataReceivedFromProgram=data.toString(); 
+          dataReceivedFromProgram=data.toString().trim(); 
           dataReceivedFromProgram = path.join(__dirname, '/../UploadedFiles', dataReceivedFromProgram);
         });
         
@@ -97,10 +97,8 @@ router.post('/', upload.fields([
             console.log(`child process exited with code ${code}`);
             
             let filePath=dataReceivedFromProgram;
-            // read the JSON file
-            console.log('data received from program: ');
-            console.log(dataReceivedFromProgram + "\n" + filePath);
-
+            filePath=filePath.replace(/\\/g, '\\\\');
+            
             // protect the file
             // filePasswordUtils.encrypt(filePath, 'C:\\Users\\ishu1\\OneDrive\\Desktop\\GULAM\\testFolder\\testProject_liv\\UploadedFiles\\tempFile.json', 'Password@234', (PassSuccess) => {
 

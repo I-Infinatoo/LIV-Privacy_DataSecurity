@@ -5,19 +5,19 @@ const fs = require('fs');
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'liv.project.final@gmail.com',
-        pass: 'eznlvpwvhdytcmht'
+        // user: 'liv.project.final@gmail.com',
+        // pass: 'eznlvpwvhdytcmht'
+        user: 'herokusa81@gmail.com',
+        pass: 'zdbhccqpjfeipynh'
     }
 });
 
 function sendEmailTo(filePath, name, email, callback) {
-    // const jsonFile=fs.readFileSync(filePath);
-    // const jsonFile=fs.readFileSync('C:\\Users\\ishu1\\OneDrive\\Desktop\\GULAM\\testFolder\\testProject_liv\\UploadedFiles\\notes_enc.json');
-    const jsonFile=fs.readFileSync('C:\\Users\\ishu1\\OneDrive\\Desktop\\GULAM\\testFolder\\testProject_liv\\UploadedFiles\\tempFile.json');
+    const jsonFile=fs.readFileSync(filePath);
+    // console.log(jsonFile);
     const mailText=`Hi ${name},\nPlease find the attached JSON file.\nThe file is password protected (name+email).`;
-
     let mailOptions = {
-        from: 'liv.project.final@gmail.com', // sender address
+        from: 'herokusa81@gmail.com', // sender address
         bcc: [email], // list of BCC recipients
         subject: `PFA Keys`, // Subject line
         text: mailText, // plain text body
