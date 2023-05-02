@@ -44,3 +44,10 @@
 5. integrate core functions
 6. delete the session file when sever restarts or closes
 7. include the java files in the installer, explicitely
+
+# installer
+```
+Plan the installer: Before you begin creating the installer, you should plan out the various components that will be included in the installation package, such as the application files, dependencies, registry entries, shortcuts, etc.
+
+Create the installer package: Using your chosen installer creation tool, create the installer package by specifying the files and settings that need to be included.
+```

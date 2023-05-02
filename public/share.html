@@ -6,8 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Share</title>
     <link rel="stylesheet" href="./css/style.css">
+    <!-- <script src="./js/validate.js"></script> -->
+    <script src="./js/sharePageScript.js"></script>
 </head>
 <body>
-    <div>share</div>
+    <div>
+        <p>
+            We will provide user with two radio buttons. <br> 
+              1. send   2. decrypt <br>
+            If user selects 'send' option, then he will be shown with some fields to fill such as: <br>
+              Name, Email, File (encrypted) <br>
+              then needs to click on 'proceede' button, then 'result page' <br>
+            If user selects 'decrypt' option, then he will be shown with some field to fill: <br>
+              Key file, Passphrase(to open the key file), File (encrypted) <br>
+        </p>
+    </div>
+
+
+    <form method="post" action="/share" enctype="multipart/form-data">
+        <div class="rbuttons"> 
+            <!-- implement the onclick functionin js file-->
+            <label for="sendOrDec" class="sendOrDec">
+                <input type="radio" name="sendOrDec" value="sendFile" onclick="showSendDecOptions()"> Send 
+            </label>
+            <label for="sendOrDec" class="sendOrDec">
+                <input type="radio" name="sendOrDec" value="decryptFile" onclick="showSendDecOptions()"> Decrypt <br><br>
+            </label>
+        </div>
+
+        <div id="sendOption" style="display: none;">
+            <!-- make it visible when selected `send` option -->
+            <label for="path"><br> Select File: 
+                <input type="file" name="encFile" id="fileInput" placeholder="Select File">
+            </label>
+            <label for="email"><br> Enter recipient's email: 
+                <input type="email" Id="email" name="email" placeholder="Enter recipient's email Id">
+            </label><br>
+            <label for="name"><br> Enter recipient's name: 
+                <input type="text" name="name" id="name" placeholder="Enter recipient's name">
+            </label>
+            
+        </div>
+
+        <div id="decryptOption" style="display: none;">
+            <!-- make it visible when selected `decrypt option` -->
+            <label for="path"><br> Select Key:
+                <input type="file" name="keyFile" id="keyFileInput" placeholder="Select Key">
+            </label>
+            <label for="path"><br> Select File: 
+                <input type="file" name="receivedFile" id="receivedFileInput" placeholder="Select File">
+            </label>
+            <label for="passphrase"><br> Enter Key Password: 
+                <input type="password" id="keyFilePassphrase" name="keyFilePassphrase">
+            </label>
+        </div>
+
+        <button type="submit">Proceed</button>
+
+    </form>
+
 </body>
 </html>

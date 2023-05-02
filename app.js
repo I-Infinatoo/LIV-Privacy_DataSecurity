@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const net = require('net');
+// const open = require('open');
+const { exec } = require('child_process');
 
 const signupRoute = require('./routes/signup');
 const loginRoute = require('./routes/login');
@@ -74,6 +76,10 @@ async function startServer(port) {
   if (isFree) {
     app.listen(port, () => {
       console.log(`Server started on port ${port}`);
+      
+        // // open default web browser
+        // const command = process.platform === 'win32' ? 'start' : 'open';
+        // exec(`${command} http://localhost:${port}`);
     });
   } else { 
     // if not free then check for the next port

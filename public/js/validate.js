@@ -11,7 +11,7 @@ function validateForm() {
         alert("Invalid email format");
         return false;
     }
-    if(!passwordRegex.test(password)) {
+    if(password && !passwordRegex.test(password)) {
         alert("Invalid password format");
         return false;
     }
@@ -21,4 +21,5 @@ function validateForm() {
         alert("Password and confirm Password is not same.");
         return false;
     }
+    return true;
 }
