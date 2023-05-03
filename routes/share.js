@@ -9,6 +9,7 @@ const fs = require('fs');
 const tokenUtils = require('../utils/sessionTokenUtil');
 const emailUtils = require('../utils/sendEmailUtil');
 const {protectWithPassword, removePassword, createPassword} = require('../utils/filePasswordUtil');
+// const deleteFile = require('../utils/deleteFileUtil');
 
 
 const storage = multer.diskStorage({
@@ -65,6 +66,7 @@ router.post('/', upload.fields([
     const receivedFile = req.files ? req.files.receivedFile : null;
     const encFile = req.files ? req.files.encFile : null;
    
+    // get the path of the files
     const keyFilePath = keyFile ? path.join(__dirname, '..', keyFile[0].path) : null;
     const receivedFilePath = receivedFile ? path.join(__dirname, '..', receivedFile[0].path) : null;
     const encFilePath = encFile ? path.join(__dirname, '..', encFile[0].path) : null;
@@ -104,10 +106,21 @@ router.post('/', upload.fields([
             protectWithPassword(filePath, createPassword(email, name), (PassSuccess) => {
 
                 if(PassSuccess) {
-
-                    emailUtils.sendEmailTo(filePath, name, email, (success) => {
-                        if(success) {
+                  emailUtils.sendEmailTo(filePath, name, email, (emailSuccess) => {
+                    if(emailSuccess) {
+                      // if successfully sended the email, then delete the file
+                      fs.unlink(filePath, (err) => {
+                        if (err) {
+                          console.error(err);
+                          return;
+                        }
+                      
+                        console.log(`${filePath} is deleted`);
+                      })
+                      // provide the link for home page
                         res.send(`<div id="message">${dataReceivedFromProgram}<br>Email sent to ${email}</div>
+                        <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+
                         <script>
                         document.getElementById("message").style.color = "black";
                         
@@ -118,8 +131,20 @@ router.post('/', upload.fields([
                         document.head.appendChild(link);
                         </script>
                         `);
-                        } else {
-                            res.send(`<div id="message">Email not sent.</div>
+                      } else {
+
+                        // if not able to send the email, delete the generated file
+                        fs.unlink(filePath, (err) => {
+                          if (err) {
+                            console.error(err);
+                            return;
+                          }
+                        
+                          console.log(`${filePath} is deleted`);
+                        })
+                            res.send(`<div id="message">Error in sending email.</div>
+                            <p id="first">Back to<a href="/share.html"> Share</a></p>
+
                             <script>
                             document.getElementById("message").style.color = "black";
                             
@@ -133,7 +158,28 @@ router.post('/', upload.fields([
                         }
                     });
                 } else {
-                  res.send('Error protecting file');
+                  // if failed to protect the file, then delete the generated key file
+                  fs.unlink(filePath, (err) => {
+                    if (err) {
+                      console.error(err);
+                      return;
+                    }
+                  
+                    console.log(`${filePath} is deleted`);
+                  })
+                  res.send(`<div id="message">Error occured while protecting file.</div>
+                    <p id="first">Back to<a href="/share.html"> Share</a></p>
+
+                  <script>
+                  document.getElementById("message").style.color = "black";
+                  
+                  const link = document.createElement("link");
+                  link.rel = "stylesheet";
+                  link.type = "text/css";
+                  link.href = "/css/style.css";
+                  document.head.appendChild(link);
+                  </script>
+                  `);
                 }  
                 
             });
@@ -165,21 +211,39 @@ router.post('/', upload.fields([
             javaProcess.on('close', (code) => {
               console.log(`child process exited with code ${code}`);
 
-              // after decryption, remove the unlocked keyfile
-              res.send(`<div id="message">${dataReceivedFromProgram}</div>
-                          <script>
-                          document.getElementById("message").style.color = "black";
-                          
-                          const link = document.createElement("link");
-                          link.rel = "stylesheet";
-                          link.type = "text/css";
-                          link.href = "/css/style.css";
-                          document.head.appendChild(link);
-                          </script>
-              `);
+              protectWithPassword(keyFilePath, keyFilePassphrase, (isEncrypted)=>{
+                if(isEncrypted) {
+                  // after dec. provide the link to home page
+                  res.send(`<div id="message">${dataReceivedFromProgram}</div>
+                  <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+
+                    <script>
+                    document.getElementById("message").style.color = "black";
+                    
+                    const link = document.createElement("link");
+                    link.rel = "stylesheet";
+                    link.type = "text/css";
+                    link.href = "/css/style.css";
+                    document.head.appendChild(link);
+                    </script>
+                  `);
+                } else {
+                    // after decryption, remove the unlocked keyfile
+                    fs.unlink(keyFilePath, (err) => {
+                      if (err) {
+                        console.error(err);
+                        return;
+                      }
+                    
+                      console.log(`${filePath} is deleted`);
+                    })
+                }
+              })
             });
           } else {
+            // if invalid password then send the link to go back
             res.send(`<div id="message">Invalid Password or Key file</div>
+                      <p id="first">Back to<a href="/share.html"> Share</a></p>
                           <script>
                           document.getElementById("message").style.color = "black";
                           

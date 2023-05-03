@@ -49,8 +49,8 @@ function removePassword(filePath, password, callback) {
         throw err;
     }
 
-    console.log('decryptedData: ' + decryptedData);
     decryptedData= '{\n'+decryptedData.substring(1, decryptedData.length-1)+'\n}';
+    console.log('decryptedData: ' + decryptedData);
 
     // Write the decrypted data back to the file
     fs.writeFileSync(filePath, decryptedData);

@@ -6,6 +6,7 @@ const multer  = require('multer');
 const { spawn } = require('child_process');
 const fs = require('fs');
 const tokenUtils = require('../utils/sessionTokenUtil');
+// const deleteFile = require('../utils/deleteFileUtil');
 
 /*
  * Also, if you plan to handle large file uploads, you may want to consider using a streaming approach 
@@ -76,7 +77,20 @@ router.post('/', upload.single('file'), function (req, res) {
           console.log(`child process exited with code ${code}`);
           // res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
           // res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
+          
+          // delete the uploaded file only after the java program finishes its work
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+          
+            console.log(`${filePath} is deleted`);
+        })
+          //provide the link to home page  
           res.send(`<div id="message">${dataReceivedFromProgram}</div>
+          <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+
           <script>
             document.getElementById("message").style.color = "black";
             
@@ -88,15 +102,6 @@ router.post('/', upload.single('file'), function (req, res) {
           </script>
         `);
 
-          // delete the uploaded file only after the java program finishes its work
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-          
-            console.log(`${filePath} was deleted`);
-          })
         });
   
       } else if (typeEncDec == 'decrypt') {
@@ -117,9 +122,21 @@ router.post('/', upload.single('file'), function (req, res) {
         javaProcess.on('close', (code) => {
           console.log(`child process exited with code ${code}`);
           // res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
-    
           // res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
+
+          // delete the uploaded enc file
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+          
+            console.log(`${filePath} is deleted`);
+        })
+          // provide the link to home page
           res.send(`<div id="message">${dataReceivedFromProgram}</div>
+            <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+
           <script>
             document.getElementById("message").style.color = "black";
             
@@ -130,16 +147,6 @@ router.post('/', upload.single('file'), function (req, res) {
             document.head.appendChild(link);
           </script>
         `);
-
-          // delete the uploaded file only after the java program finishes its work
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-          
-            console.log(`${filePath} was deleted`);
-          })
         });
       }
   
@@ -204,7 +211,6 @@ router.post('/', upload.single('file'), function (req, res) {
     else {
       // res.send('No file was uploaded.');
       res.render('upload', { message: 'No file was uploaded.', output: '' });
-
     }
   });
 
