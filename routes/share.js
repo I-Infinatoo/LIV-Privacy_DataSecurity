@@ -6,6 +6,12 @@ const multer  = require('multer');
 const { spawn } = require('child_process');
 const fs = require('fs');
 
+// for input sanitization against XSS
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
 const tokenUtils = require('../utils/sessionTokenUtil');
 const emailUtils = require('../utils/sendEmailUtil');
 const {protectWithPassword, removePassword, createPassword} = require('../utils/filePasswordUtil');
@@ -60,7 +66,13 @@ router.post('/', upload.fields([
     ]), (req, res) => {
 
     console.log('inside the share route');
-    const { sendOrDec, email, name, keyFilePassphrase } = req.body;
+    let { sendOrDec, email, name, keyFilePassphrase } = req.body;
+    
+    // sanitize
+    email = DOMPurify.sanitize(email);
+    name = DOMPurify.sanitize(name);
+    keyFilePassphrase = DOMPurify.sanitize(keyFilePassphrase);
+
     // Handle multiple file upload
     const keyFile = req.files ? req.files.keyFile : null;
     const receivedFile = req.files ? req.files.receivedFile : null;

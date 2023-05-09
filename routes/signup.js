@@ -3,6 +3,12 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
+// for input sanitization against XSS
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
 const passwordUtils = require('../utils/passwordUtil'); // import passwordUtils module
 
 router.get('/', (req, res) =>{
@@ -13,7 +19,12 @@ router.get('/', (req, res) =>{
 
 router.post('/', (req, res) => {
 
-  const { email, password } = req.body;
+  let { email, password } = req.body;
+ 
+  // sanitization
+  email = DOMPurify.sanitize(email);
+  password = DOMPurify.sanitize(password);
+
   const credentialsPath = 'credentials.json';
 
   // Check if credentials.json file exists and read the file

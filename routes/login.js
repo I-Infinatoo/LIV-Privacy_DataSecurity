@@ -4,6 +4,12 @@ const path = require('path');
 const fs = require('fs');
 const uuid = require('uuid').v4;  // for session token
 
+// for input sanitization against XSS
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
 const passwordUtils = require('../utils/passwordUtil'); // import passwordUtils module
 // const {validateEmail, validatePassword} = require('../utils/pass-emailFormatChecker');
 
@@ -20,9 +26,12 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
   const credentialsPath = 'credentials.json';
   
+  // sanitization
+  email = DOMPurify.sanitize(email);
+  password = DOMPurify.sanitize(password);
 
   // Check if credentials.json file exists and read the file
   let credentials;
