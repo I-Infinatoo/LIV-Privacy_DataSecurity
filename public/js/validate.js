@@ -3,6 +3,12 @@ function validateForm() {
     const email = document.querySelector("#email").value;
     const password = document.querySelector("#password").value;
     const confirmPassword = document.querySelector("#cpassword").value;
+    var bgVideo = document.getElementById("bg-video");
+
+bgVideo.addEventListener("ended", function() {
+    bgVideo.currentTime = 0;
+    bgVideo.play();
+});
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
@@ -22,4 +28,5 @@ function validateForm() {
         return false;
     }
     return true;
+    
 }
