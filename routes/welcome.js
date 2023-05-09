@@ -6,7 +6,7 @@ const multer  = require('multer');
 const { spawn } = require('child_process');
 const fs = require('fs');
 const tokenUtils = require('../utils/sessionTokenUtil');
-// const deleteFile = require('../utils/deleteFileUtil');
+const deleteFile = require('../utils/deleteFileUtil');
 
 /*
  * Also, if you plan to handle large file uploads, you may want to consider using a streaming approach 
@@ -79,32 +79,50 @@ router.post('/', upload.single('file'), function (req, res) {
           // res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
           
           // delete the uploaded file only after the java program finishes its work
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
+        //   fs.unlink(filePath, (err) => {
+        //     if (err) {
+        //       console.error(err);
+        //       return;
+        //     }
           
-            console.log(`${filePath} is deleted`);
-        })
-          //provide the link to home page  
-          res.send(`<div id="message">${dataReceivedFromProgram}</div>
-          <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+        //     console.log(`${filePath} is deleted`);
+        // })
+        console.log(`file uploaded and now deleting file: ${filePath}`);
+        deleteFile.checkAndDeleteFile(filePath);
 
-          <script>
-            document.getElementById("message").style.color = "black";
+          //provide the link to home page  
+        //   res.send(`<div id="message">${dataReceivedFromProgram}</div>
+        //   <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+
+        //   <script>
+        //     document.getElementById("message").style.color = "black";
             
-            const link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.type = "text/css";
-            link.href = "/css/style.css";
-            document.head.appendChild(link);
-          </script>
-        `);
+        //     const link = document.createElement("link");
+        //     link.rel = "stylesheet";
+        //     link.type = "text/css";
+        //     link.href = "/css/style.css";
+        //     document.head.appendChild(link);
+        //   </script>
+        // `);
+          res.status(200).send(`
+            <html>
+              <head>
+                <title>LIV: Status</title>
+                <link rel="stylesheet" type="text/css" href="/css/style.css">
+              </head>
+              <body>
+                <div id="message">${dataReceivedFromProgram}</div>
+                <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+                <script>
+                  document.getElementById("message").style.color = "black";
+                </script>
+              </body>
+            </html>
+          `);
 
         });
   
-      } else if (typeEncDec == 'decrypt') {
+     } else if (typeEncDec == 'decrypt') {
         console.log('Decyption is selected');
   
         const javaProcess = spawn('java', ['-cp', './javaProgram', 'decryptionJava', filePath]);
@@ -125,28 +143,46 @@ router.post('/', upload.single('file'), function (req, res) {
           // res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
 
           // delete the uploaded enc file
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
+        //   fs.unlink(filePath, (err) => {
+        //     if (err) {
+        //       console.error(err);
+        //       return;
+        //     }
           
-            console.log(`${filePath} is deleted`);
-        })
-          // provide the link to home page
-          res.send(`<div id="message">${dataReceivedFromProgram}</div>
-            <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+        //     console.log(`${filePath} is deleted`);
+        // })
+        console.log(`uploaded enc. file and now deleting file: ${filePath}`);
+        deleteFile.checkAndDeleteFile(filePath);
 
-          <script>
-            document.getElementById("message").style.color = "black";
+          // provide the link to home page
+        //   res.send(`<div id="message">${dataReceivedFromProgram}</div>
+        //     <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+
+        //   <script>
+        //     document.getElementById("message").style.color = "black";
             
-            const link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.type = "text/css";
-            link.href = "/css/style.css";
-            document.head.appendChild(link);
-          </script>
-        `);
+        //     const link = document.createElement("link");
+        //     link.rel = "stylesheet";
+        //     link.type = "text/css";
+        //     link.href = "/css/style.css";
+        //     document.head.appendChild(link);
+        //   </script>
+        // `);
+        res.status(200).send(`
+        <html>
+          <head>
+            <title>LIV: Status</title>
+            <link rel="stylesheet" type="text/css" href="/css/style.css">
+          </head>
+          <body>
+            <div id="message">${dataReceivedFromProgram}</div>
+            <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+            <script>
+              document.getElementById("message").style.color = "black";
+            </script>
+          </body>
+        </html>
+      `);
         });
       }
   
@@ -210,7 +246,23 @@ router.post('/', upload.single('file'), function (req, res) {
     }
     else {
       // res.send('No file was uploaded.');
-      res.render('upload', { message: 'No file was uploaded.', output: '' });
+      // res.render('upload', { message: 'No file was uploaded.', output: '' });
+      // 400 Bad Request
+      res.status(400).send(`
+      <html>
+        <head>
+          <title>LIV: Status</title>
+          <link rel="stylesheet" type="text/css" href="/css/style.css">
+        </head>
+        <body>
+          <div id="message">No file was uploaded.</div>
+          <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+          <script>
+            document.getElementById("message").style.color = "black";
+          </script>
+        </body>
+      </html>
+    `);
     }
   });
 

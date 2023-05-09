@@ -9,7 +9,7 @@ const fs = require('fs');
 const tokenUtils = require('../utils/sessionTokenUtil');
 const emailUtils = require('../utils/sendEmailUtil');
 const {protectWithPassword, removePassword, createPassword} = require('../utils/filePasswordUtil');
-// const deleteFile = require('../utils/deleteFileUtil');
+const deleteFile = require('../utils/deleteFileUtil');
 
 
 const storage = multer.diskStorage({
@@ -109,77 +109,131 @@ router.post('/', upload.fields([
                   emailUtils.sendEmailTo(filePath, name, email, (emailSuccess) => {
                     if(emailSuccess) {
                       // if successfully sended the email, then delete the file
-                      fs.unlink(filePath, (err) => {
-                        if (err) {
-                          console.error(err);
-                          return;
-                        }
+                      // fs.unlink(filePath, (err) => {
+                      //   if (err) {
+                      //     console.error(err);
+                      //     return;
+                      //   }
                       
-                        console.log(`${filePath} is deleted`);
-                      })
+                      //   console.log(`${filePath} is deleted`);
+                      // })
+                      console.log(`sent email and now deleting file: ${filePath}`);
+                      deleteFile.checkAndDeleteFile(filePath);
                       // provide the link for home page
-                        res.send(`<div id="message">${dataReceivedFromProgram}<br>Email sent to ${email}</div>
-                        <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+                        // res.send(`<div id="message">${dataReceivedFromProgram}<br>Email sent to ${email}</div>
+                        // <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
 
-                        <script>
-                        document.getElementById("message").style.color = "black";
+                        // <script>
+                        // document.getElementById("message").style.color = "black";
                         
-                        const link = document.createElement("link");
-                        link.rel = "stylesheet";
-                        link.type = "text/css";
-                        link.href = "/css/style.css";
-                        document.head.appendChild(link);
-                        </script>
-                        `);
+                        // const link = document.createElement("link");
+                        // link.rel = "stylesheet";
+                        // link.type = "text/css";
+                        // link.href = "/css/style.css";
+                        // document.head.appendChild(link);
+                        // </script>
+                        // `);
+                        res.status(200).send(`
+                        <html>
+                          <head>
+                            <title>LIV: Status</title>
+                            <link rel="stylesheet" type="text/css" href="/css/style.css">
+                          </head>
+                          <body>
+                            <div id="message">${dataReceivedFromProgram}<br>Email sent to ${email}</div>
+                            <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+                            <script>8
+                              document.getElementById("message").style.color = "black";
+                            </script>
+                          </body>
+                        </html>
+                      `);
                       } else {
 
                         // if not able to send the email, delete the generated file
-                        fs.unlink(filePath, (err) => {
-                          if (err) {
-                            console.error(err);
-                            return;
-                          }
+                        // fs.unlink(filePath, (err) => {
+                        //   if (err) {
+                        //     console.error(err);
+                        //     return;
+                        //   }
                         
-                          console.log(`${filePath} is deleted`);
-                        })
-                            res.send(`<div id="message">Error in sending email.</div>
-                            <p id="first">Back to<a href="/share.html"> Share</a></p>
+                        //   console.log(`${filePath} is deleted`);
+                        // })
+                        console.log(`no email sent and now deleting file: ${filePath}`);
+                        deleteFile.checkAndDeleteFile(filePath);
+                            // res.send(`<div id="message">Error in sending email.</div>
+                            // <p id="first">Back to<a href="/share.html"> Share</a></p>
 
-                            <script>
-                            document.getElementById("message").style.color = "black";
+                            // <script>
+                            // document.getElementById("message").style.color = "black";
                             
-                            const link = document.createElement("link");
-                            link.rel = "stylesheet";
-                            link.type = "text/css";
-                            link.href = "/css/style.css";
-                            document.head.appendChild(link);
-                            </script>
-                            `);
+                            // const link = document.createElement("link");
+                            // link.rel = "stylesheet";
+                            // link.type = "text/css";
+                            // link.href = "/css/style.css";
+                            // document.head.appendChild(link);
+                            // </script>
+                            // `);
+                            // 503 Service Unavailable
+                            res.status(503).send(`
+                            <html>
+                              <head>
+                                <title>LIV: Status</title>
+                                <link rel="stylesheet" type="text/css" href="/css/style.css">
+                              </head>
+                              <body>
+                                <div id="message">Error in sending email.</div>
+                                <p id="first">Back to<a href="/share.html"> Share</a></p>
+                                <script>
+                                  document.getElementById("message").style.color = "black";
+                                </script>
+                              </body>
+                            </html>
+                          `);
                         }
                     });
                 } else {
                   // if failed to protect the file, then delete the generated key file
-                  fs.unlink(filePath, (err) => {
-                    if (err) {
-                      console.error(err);
-                      return;
-                    }
+                  // fs.unlink(filePath, (err) => {
+                  //   if (err) {
+                  //     console.error(err);
+                  //     return;
+                  //   }
                   
-                    console.log(`${filePath} is deleted`);
-                  })
-                  res.send(`<div id="message">Error occured while protecting file.</div>
-                    <p id="first">Back to<a href="/share.html"> Share</a></p>
+                  //   console.log(`${filePath} is deleted`);
+                  // })
+                  console.log(`unable to protect file and now deleting file: ${filePath}`);
+                  deleteFile.checkAndDeleteFile(filePath);
 
-                  <script>
-                  document.getElementById("message").style.color = "black";
+                  // res.send(`<div id="message">Error occured while protecting file.</div>
+                  //   <p id="first">Back to<a href="/share.html"> Share</a></p>
+
+                  // <script>
+                  // document.getElementById("message").style.color = "black";
                   
-                  const link = document.createElement("link");
-                  link.rel = "stylesheet";
-                  link.type = "text/css";
-                  link.href = "/css/style.css";
-                  document.head.appendChild(link);
-                  </script>
-                  `);
+                  // const link = document.createElement("link");
+                  // link.rel = "stylesheet";
+                  // link.type = "text/css";
+                  // link.href = "/css/style.css";
+                  // document.head.appendChild(link);
+                  // </script>
+                  // `);
+                  // 501 Not Implemented
+                  res.status(501).send(`
+                  <html>
+                    <head>
+                      <title>LIV: Status</title>
+                      <link rel="stylesheet" type="text/css" href="/css/style.css">
+                    </head>
+                    <body>
+                      <div id="message">Error occured while protecting file.</div>
+                      <p id="first">Back to<a href="/share.html"> Share</a></p>
+                      <script>
+                        document.getElementById("message").style.color = "black";
+                      </script>
+                    </body>
+                  </html>
+                `);
                 }  
                 
             });
@@ -214,46 +268,79 @@ router.post('/', upload.fields([
               protectWithPassword(keyFilePath, keyFilePassphrase, (isEncrypted)=>{
                 if(isEncrypted) {
                   // after dec. provide the link to home page
-                  res.send(`<div id="message">${dataReceivedFromProgram}</div>
-                  <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+                  // res.send(`<div id="message">${dataReceivedFromProgram}</div>
+                  // <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
 
-                    <script>
-                    document.getElementById("message").style.color = "black";
+                  //   <script>
+                  //   document.getElementById("message").style.color = "black";
                     
-                    const link = document.createElement("link");
-                    link.rel = "stylesheet";
-                    link.type = "text/css";
-                    link.href = "/css/style.css";
-                    document.head.appendChild(link);
-                    </script>
-                  `);
+                  //   const link = document.createElement("link");
+                  //   link.rel = "stylesheet";
+                  //   link.type = "text/css";
+                  //   link.href = "/css/style.css";
+                  //   document.head.appendChild(link);
+                  //   </script>
+                  // `);
+                  res.status(200).send(`
+                  <html>
+                    <head>
+                      <title>LIV: Status</title>
+                      <link rel="stylesheet" type="text/css" href="/css/style.css">
+                    </head>
+                    <body>
+                      <div id="message">${dataReceivedFromProgram}</div>
+                      <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+                      <script>
+                        document.getElementById("message").style.color = "black";
+                      </script>
+                    </body>
+                  </html>
+                `);
                 } else {
                     // after decryption, remove the unlocked keyfile
-                    fs.unlink(keyFilePath, (err) => {
-                      if (err) {
-                        console.error(err);
-                        return;
-                      }
+                    // fs.unlink(keyFilePath, (err) => {
+                    //   if (err) {
+                    //     console.error(err);
+                    //     return;
+                    //   }
                     
-                      console.log(`${filePath} is deleted`);
-                    })
+                    //   console.log(`${filePath} is deleted`);
+                    // })
+                    console.log(`after dec. and now deleting file: ${keyFilePath}`);
+                    deleteFile.checkAndDeleteFile(keyFilePath);
                 }
               })
             });
           } else {
             // if invalid password then send the link to go back
-            res.send(`<div id="message">Invalid Password or Key file</div>
-                      <p id="first">Back to<a href="/share.html"> Share</a></p>
-                          <script>
-                          document.getElementById("message").style.color = "black";
+            // res.send(`<div id="message">Invalid Password or Key file</div>
+            //           <p id="first">Back to<a href="/share.html"> Share</a></p>
+            //               <script>
+            //               document.getElementById("message").style.color = "black";
                           
-                          const link = document.createElement("link");
-                          link.rel = "stylesheet";
-                          link.type = "text/css";
-                          link.href = "/css/style.css";
-                          document.head.appendChild(link);
-                          </script>
-              `);
+            //               const link = document.createElement("link");
+            //               link.rel = "stylesheet";
+            //               link.type = "text/css";
+            //               link.href = "/css/style.css";
+            //               document.head.appendChild(link);
+            //               </script>
+            //   `);
+            // 401 Unauthorized
+            res.status(401).send(`
+            <html>
+              <head>
+                <title>LIV: Status</title>
+                <link rel="stylesheet" type="text/css" href="/css/style.css">
+              </head>
+              <body>
+                <div id="message">Invalid Password or Key file</div>
+                <p id="first">Back to<a href="/share.html"> Share</a></p>
+                <script>
+                  document.getElementById("message").style.color = "black";
+                </script>
+              </body>
+            </html>
+          `);
           }
         })
     }

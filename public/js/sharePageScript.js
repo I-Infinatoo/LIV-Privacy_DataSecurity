@@ -37,3 +37,7 @@ function showSendDecOptions() {
         return;
     }
 }
+
+function redirectTo(page) {
+    window.location=page;
+}

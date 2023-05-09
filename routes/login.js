@@ -8,9 +8,14 @@ const passwordUtils = require('../utils/passwordUtil'); // import passwordUtils 
 // const {validateEmail, validatePassword} = require('../utils/pass-emailFormatChecker');
 
 const tokenUtils = require('../utils/sessionTokenUtil');    // to manage tokens
+const deleteFile = require('../utils/deleteFileUtil');   // to manage logout
+
 
 router.get('/', (req, res) => {
   // res.sendFile('./../public/loginPage.html');
+  const filePath=path.join(__dirname,'./../session_tokens.json');
+  console.log(`called logout or login page: ${filePath}`);
+  deleteFile.checkAndDeleteFile(filePath);
   res.sendFile(path.join(__dirname, '/../public/index.html'));
 });
 
