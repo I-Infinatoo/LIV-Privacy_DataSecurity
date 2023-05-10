@@ -16,8 +16,12 @@ form,#message{
     border-radius: 5pc;
     padding: 3%;
     margin-top: 3%;
-    margin-left:34%;
+    margin-left:25%;
     margin-right: 15%;
     width:50%;
 } 
+
+#First{
+    text-align: center;
+}
 

@@ -108,7 +108,7 @@ router.post('/', upload.single('file'), function (req, res) {
             <html>
               <head>
                 <title>LIV: Status</title>
-                <link rel="stylesheet" type="text/css" href="/css/style.css">
+                <link rel="stylesheet" type="text/css" href="/css/route.css">
               </head>
               <body>
                 <div id="message">${dataReceivedFromProgram}</div>
@@ -172,7 +172,7 @@ router.post('/', upload.single('file'), function (req, res) {
         <html>
           <head>
             <title>LIV: Status</title>
-            <link rel="stylesheet" type="text/css" href="/css/style.css">
+            <link rel="stylesheet" type="text/css" href="/css/route.css">
           </head>
           <body>
             <div id="message">${dataReceivedFromProgram}</div>
@@ -252,7 +252,7 @@ router.post('/', upload.single('file'), function (req, res) {
       <html>
         <head>
           <title>LIV: Status</title>
-          <link rel="stylesheet" type="text/css" href="/css/style.css">
+          <link rel="stylesheet" type="text/css" href="/css/route.css">
         </head>
         <body>
           <div id="message">No file was uploaded.</div>
