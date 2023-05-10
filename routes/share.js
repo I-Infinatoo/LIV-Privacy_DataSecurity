@@ -149,7 +149,7 @@ router.post('/', upload.fields([
                         <html>
                           <head>
                             <title>LIV: Status</title>
-                            <link rel="stylesheet" type="text/css" href="/css/style.css">
+                            <link rel="stylesheet" type="text/css" href="/css/route.css">
                           </head>
                           <body>
                             <div id="message">${dataReceivedFromProgram}<br>Email sent to ${email}</div>
@@ -191,7 +191,7 @@ router.post('/', upload.fields([
                             <html>
                               <head>
                                 <title>LIV: Status</title>
-                                <link rel="stylesheet" type="text/css" href="/css/style.css">
+                                <link rel="stylesheet" type="text/css" href="/css/route.css">
                               </head>
                               <body>
                                 <div id="message">Error in sending email.</div>
@@ -235,7 +235,7 @@ router.post('/', upload.fields([
                   <html>
                     <head>
                       <title>LIV: Status</title>
-                      <link rel="stylesheet" type="text/css" href="/css/style.css">
+                      <link rel="stylesheet" type="text/css" href="/css/route.css">
                     </head>
                     <body>
                       <div id="message">Error occured while protecting file.</div>
@@ -297,7 +297,7 @@ router.post('/', upload.fields([
                   <html>
                     <head>
                       <title>LIV: Status</title>
-                      <link rel="stylesheet" type="text/css" href="/css/style.css">
+                      <link rel="stylesheet" type="text/css" href="/css/route.css">
                     </head>
                     <body>
                       <div id="message">${dataReceivedFromProgram}</div>
@@ -342,7 +342,7 @@ router.post('/', upload.fields([
             <html>
               <head>
                 <title>LIV: Status</title>
-                <link rel="stylesheet" type="text/css" href="/css/style.css">
+                <link rel="stylesheet" type="text/css" href="/css/route.css">
               </head>
               <body>
                 <div id="message">Invalid Password or Key file</div>

@@ -11,8 +11,8 @@
     <script src="./js/sharePageScript.js"></script>
 </head>
 <body>
-    <button class="logout" type="submit" onclick="redirectTo('/login')">Logout</button>
-    <button class="logout" type="submit" onclick="redirectTo('/welcome')">Back</button>
+   <span style="float:right"><button class="logout" type="submit" onclick="redirectTo('/login')">Logout</button></span> 
+    <span style="float:left"><button class="back" type="submit" onclick="redirectTo('/welcome')">Back</button></span>
     <h1>LIV</h1>
 
     <form method="post" action="/share" enctype="multipart/form-data">
@@ -53,7 +53,7 @@
             </label>
         </div>
 
-        <button type="submit">Proceed</button>
+        <button type="submit" class="submit">Proceed</button>
 
     </form>
 
