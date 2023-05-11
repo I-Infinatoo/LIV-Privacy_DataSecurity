@@ -107,12 +107,13 @@ router.post('/', upload.single('file'), function (req, res) {
           res.status(200).send(`
             <html>
               <head>
+                <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
                 <title>LIV: Status</title>
                 <link rel="stylesheet" type="text/css" href="/css/route.css">
               </head>
               <body>
                 <div id="message">${dataReceivedFromProgram}</div>
-                <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+                <p id="first">Back to<a href="/welcome"> Home</a></p>
                 <script>
                   document.getElementById("message").style.color = "black";
                 </script>
@@ -171,12 +172,13 @@ router.post('/', upload.single('file'), function (req, res) {
         res.status(200).send(`
         <html>
           <head>
+            <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
             <title>LIV: Status</title>
             <link rel="stylesheet" type="text/css" href="/css/route.css">
           </head>
           <body>
             <div id="message">${dataReceivedFromProgram}</div>
-            <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+            <p id="first">Back to<a href="/welcome"> Home</a></p>
             <script>
               document.getElementById("message").style.color = "black";
             </script>
@@ -251,12 +253,13 @@ router.post('/', upload.single('file'), function (req, res) {
       res.status(400).send(`
       <html>
         <head>
+          <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
           <title>LIV: Status</title>
           <link rel="stylesheet" type="text/css" href="/css/route.css">
         </head>
         <body>
           <div id="message">No file was uploaded.</div>
-          <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+          <p id="first">Back to<a href="/welcome"> Home</a></p>
           <script>
             document.getElementById("message").style.color = "black";
           </script>

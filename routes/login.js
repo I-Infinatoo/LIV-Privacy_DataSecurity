@@ -18,6 +18,7 @@ const deleteFile = require('../utils/deleteFileUtil');   // to manage logout
 
 
 router.get('/', (req, res) => {
+  console.log(path.parse(__dirname));
   // res.sendFile('./../public/loginPage.html');
   const filePath=path.join(__dirname,'./../session_tokens.json');
   console.log(`called logout or login page: ${filePath}`);

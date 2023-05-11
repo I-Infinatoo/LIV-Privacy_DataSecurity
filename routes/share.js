@@ -148,12 +148,13 @@ router.post('/', upload.fields([
                         res.status(200).send(`
                         <html>
                           <head>
+                            <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
                             <title>LIV: Status</title>
                             <link rel="stylesheet" type="text/css" href="/css/route.css">
                           </head>
                           <body>
                             <div id="message">${dataReceivedFromProgram}<br>Email sent to ${email}</div>
-                            <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+                            <p id="first">Back to<a href="/welcome"> Home</a></p>
                             <script>8
                               document.getElementById("message").style.color = "black";
                             </script>
@@ -189,13 +190,14 @@ router.post('/', upload.fields([
                             // 503 Service Unavailable
                             res.status(503).send(`
                             <html>
-                              <head>
+                              <head>    
+                                <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
                                 <title>LIV: Status</title>
                                 <link rel="stylesheet" type="text/css" href="/css/route.css">
                               </head>
                               <body>
                                 <div id="message">Error in sending email.</div>
-                                <p id="first">Back to<a href="/share.html"> Share</a></p>
+                                <p id="first">Back to<a href="/share"> Share</a></p>
                                 <script>
                                   document.getElementById("message").style.color = "black";
                                 </script>
@@ -234,12 +236,13 @@ router.post('/', upload.fields([
                   res.status(501).send(`
                   <html>
                     <head>
+                      <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
                       <title>LIV: Status</title>
                       <link rel="stylesheet" type="text/css" href="/css/route.css">
                     </head>
                     <body>
                       <div id="message">Error occured while protecting file.</div>
-                      <p id="first">Back to<a href="/share.html"> Share</a></p>
+                      <p id="first">Back to<a href="/share"> Share</a></p>
                       <script>
                         document.getElementById("message").style.color = "black";
                       </script>
@@ -296,12 +299,13 @@ router.post('/', upload.fields([
                   res.status(200).send(`
                   <html>
                     <head>
+                      <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
                       <title>LIV: Status</title>
                       <link rel="stylesheet" type="text/css" href="/css/route.css">
                     </head>
                     <body>
                       <div id="message">${dataReceivedFromProgram}</div>
-                      <p id="first">Back to<a href="/welcomePage.html"> Home</a></p>
+                      <p id="first">Back to<a href="/welcome"> Home</a></p>
                       <script>
                         document.getElementById("message").style.color = "black";
                       </script>
@@ -341,12 +345,13 @@ router.post('/', upload.fields([
             res.status(401).send(`
             <html>
               <head>
+                <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
                 <title>LIV: Status</title>
                 <link rel="stylesheet" type="text/css" href="/css/route.css">
               </head>
               <body>
                 <div id="message">Invalid Password or Key file</div>
-                <p id="first">Back to<a href="/share.html"> Share</a></p>
+                <p id="first">Back to<a href="/share"> Share</a></p>
                 <script>
                   document.getElementById("message").style.color = "black";
                 </script>
