@@ -69,7 +69,7 @@ router.post('/', (req, res) => {
   // Password is valid, return success message
   // res.status(200).send('Login successful');
   // console.log('sessionToken: ' + sessionToken + '\nLogined');
-  console.log('\nLogin successfull');
+  // console.log('\nLogin successfull');
   
   // redirect to welcome route
   res.redirect('/welcome');

@@ -17,7 +17,8 @@ function sendEmailTo(filePath, name, email, callback) {
     // console.log(jsonFile);
     const mailText=`Hi ${name},\nPlease do not share this email.\nThe attached file contains Decryption Key.\n\nThe file is password protected and your password will be: LAST 4 CHARACTERS OF YOUR EMAIL ID (characters before '@') + FIRST 4 CHARACTER OF YOUR NAME\nFor eg. EmailId: abcd12ef@gmail.com, Name: Abcdefg Ijkl. Then the password will be 12efAbcd.\n\n\n\nRegards,\nTeam LIV`;
     let mailOptions = {
-        from: 'herokusa81@gmail.com', // sender address
+        // from: 'herokusa81@gmail.com', // sender address
+        from: 'liv.project.final@gmail.com', // sender address
         bcc: [email], // list of BCC recipients
         subject: `LIV: Please find attached`, // Subject line
         text: mailText, // plain text body

@@ -34,7 +34,6 @@ function checkAndDeleteFile(filePath, retries = 0, maxRetries = 5, delay = 1000)
             }
           } else {
             // console.log("File deleted: " + filePath);
-            console.log('Logout Successfull');
           }
         });
       }
