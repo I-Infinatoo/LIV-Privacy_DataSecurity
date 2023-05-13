@@ -43,8 +43,24 @@ app.use('/share', shareRoute);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal server error');
+  // console.error(err.stack);
+  // res.status(500).send('Internal server error');
+  res.status(500).send(`
+  <html>
+    <head>
+      <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+      <title>LIV: Status</title>
+      <link rel="stylesheet" type="text/css" href="/css/route.css">
+    </head>
+    <body>
+      <div id="message">Internal server error. Try again after restarting the server.</div>
+      <p id="first">Back to<a href="/welcome"> Home</a></p>
+      <script>8
+        document.getElementById("message").style.color = "black";
+      </script>
+    </body>
+  </html>
+`);
 });
 
 // check and start the server on the next available port
@@ -77,13 +93,13 @@ async function startServer(port) {
     app.listen(port, () => {
       console.log(`Server started on port ${port}`);
       
-        // // open default web browser
-        // const command = process.platform === 'win32' ? 'start' : 'open';
-        // exec(`${command} http://localhost:${port}`);
+        // open default web browser
+        const command = process.platform === 'win32' ? 'start' : 'open';
+        exec(`${command} http://localhost:${port}`);
     });
   } else { 
     // if not free then check for the next port
-    console.log(`Port ${port} is already in use`);
+    // console.log(`Port ${port} is already in use`);
     startServer(port + 1);
   }
 }

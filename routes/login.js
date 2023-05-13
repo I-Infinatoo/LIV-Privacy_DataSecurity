@@ -18,10 +18,10 @@ const deleteFile = require('../utils/deleteFileUtil');   // to manage logout
 
 
 router.get('/', (req, res) => {
-  console.log(path.parse(__dirname));
+  // console.log(path.parse(__dirname));
   // res.sendFile('./../public/loginPage.html');
   const filePath=path.join(__dirname,'./../session_tokens.json');
-  console.log(`called logout or login page: ${filePath}`);
+  // console.log(`called logout or login page: ${filePath}`);
   deleteFile.checkAndDeleteFile(filePath);
   res.sendFile(path.join(__dirname, '/../public/index.html'));
 });
@@ -68,7 +68,8 @@ router.post('/', (req, res) => {
 
   // Password is valid, return success message
   // res.status(200).send('Login successful');
-  console.log('sessionToken: ' + sessionToken + '\nLogined');
+  // console.log('sessionToken: ' + sessionToken + '\nLogined');
+  console.log('\nLogin successfull');
   
   // redirect to welcome route
   res.redirect('/welcome');

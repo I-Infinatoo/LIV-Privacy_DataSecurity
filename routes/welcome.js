@@ -29,19 +29,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get('/', (req, res) => {
-    console.log('inside the welcome route');
+    // console.log('inside the welcome route');
     
     const sessionToken = req.cookies.sessionToken;
-    console.log('got token from req');
+    // console.log('got token from req');
 
     // Check if the session token is valid
     if (tokenUtils.isValidSessionToken(sessionToken)) {
         // Render the welcome page
-        console.log('varified the token');
+        // console.log('varified the token');
         res.sendFile(path.join(__dirname, '../public/', 'welcomePage.html'));
     } else {
         // Redirect to the login page
-        console.log('token not verified, redirecting to login route');
+        // console.log('token not verified, redirecting to login route');
         // alert('Retry! Login Again');
         res.redirect('/login');
     }
@@ -57,24 +57,40 @@ router.post('/', upload.single('file'), function (req, res) {
        */ 
       const typeEncDec = req.body.typeEncDec;
       if(typeEncDec === 'encrypt') {
-        console.log('Encyprion is selected');
+        // console.log('Encyprion is selected');
         const option = req.body.option;
-        console.log(` ::: level = ${option}`);
+        // console.log(` ::: level = ${option}`);
         
         const javaProcess = spawn('java', ['-cp', './javaProgram', 'encryptionJava', filePath, option]);
         let dataReceivedFromProgram='';
 
         javaProcess.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+          // console.log(`stdout: ${data}`);
           dataReceivedFromProgram+=data.toString();
         });
   
         javaProcess.stderr.on('data', (data) => {
-          console.error(`stderr: ${data}`);
+          // console.error(`stderr: ${data}`);
+          res.status(404).send(`
+          <html>
+            <head>
+              <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+              <title>LIV: Status</title>
+              <link rel="stylesheet" type="text/css" href="/css/route.css">
+            </head>
+            <body>
+              <div id="message">Internal error. Please try again.</div>
+              <p id="first">Back to<a href="/welcome"> Home</a></p>
+              <script>8
+                document.getElementById("message").style.color = "black";
+              </script>
+            </body>
+          </html>
+        `);
         });
   
         javaProcess.on('close', (code) => {
-          console.log(`child process exited with code ${code}`);
+          // console.log(`child process exited with code ${code}`);
           // res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
           // res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
           
@@ -87,7 +103,7 @@ router.post('/', upload.single('file'), function (req, res) {
           
         //     console.log(`${filePath} is deleted`);
         // })
-        console.log(`file uploaded and now deleting file: ${filePath}`);
+        // console.log(`file uploaded and now deleting file: ${filePath}`);
         deleteFile.checkAndDeleteFile(filePath);
 
           //provide the link to home page  
@@ -124,22 +140,38 @@ router.post('/', upload.single('file'), function (req, res) {
         });
   
      } else if (typeEncDec == 'decrypt') {
-        console.log('Decyption is selected');
+        // console.log('Decyption is selected');
   
         const javaProcess = spawn('java', ['-cp', './javaProgram', 'decryptionJava', filePath]);
         let dataReceivedFromProgram='';
 
         javaProcess.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+          // console.log(`stdout: ${data}`);
           dataReceivedFromProgram+=data.toString();
         });
   
         javaProcess.stderr.on('data', (data) => {
-          console.error(`stderr: ${data}`);
+          // console.error(`stderr: ${data}`);
+          res.status(404).send(`
+          <html>
+            <head>
+              <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+              <title>LIV: Status</title>
+              <link rel="stylesheet" type="text/css" href="/css/route.css">
+            </head>
+            <body>
+              <div id="message">Internal error. Please try again.</div>
+              <p id="first">Back to<a href="/welcome"> Home</a></p>
+              <script>8
+                document.getElementById("message").style.color = "black";
+              </script>
+            </body>
+          </html>
+        `);
         });
   
         javaProcess.on('close', (code) => {
-          console.log(`child process exited with code ${code}`);
+          // console.log(`child process exited with code ${code}`);
           // res.send(`File uploaded and processed successfully. Path of the copied file: ${filePath}`);
           // res.send(`File uploaded and processed successfully.<br>${dataReceivedFromProgram}`);
 
@@ -152,7 +184,7 @@ router.post('/', upload.single('file'), function (req, res) {
           
         //     console.log(`${filePath} is deleted`);
         // })
-        console.log(`uploaded enc. file and now deleting file: ${filePath}`);
+        // console.log(`uploaded enc. file and now deleting file: ${filePath}`);
         deleteFile.checkAndDeleteFile(filePath);
 
           // provide the link to home page

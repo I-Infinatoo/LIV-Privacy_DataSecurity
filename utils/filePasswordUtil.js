@@ -42,7 +42,7 @@ function removePassword(filePath, password, callback) {
         decryptedData += decipher.final('utf8');
     } catch (err) {
         if (err.message === 'bad decrypt') {
-            console.log('Invalid password');
+            // console.log('Invalid password');
             callback(false);
             return;
         }
@@ -50,7 +50,7 @@ function removePassword(filePath, password, callback) {
     }
 
     decryptedData= '{\n'+decryptedData.substring(1, decryptedData.length-1)+'\n}';
-    console.log('decryptedData: ' + decryptedData);
+    // console.log('decryptedData: ' + decryptedData);
 
     // Write the decrypted data back to the file
     fs.writeFileSync(filePath, decryptedData);

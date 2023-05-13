@@ -8,7 +8,7 @@ function isValidSessionToken(sessionToken ) {
     }
 
     const sessionTokensPath = 'session_tokens.json'; // path to session tokens file
-    console.log('got the sessionTokenPath');
+    // console.log('got the sessionTokenPath');
 
     // Check if session_tokens.json file exists and read the file
     let sessionTokens;
@@ -19,14 +19,14 @@ function isValidSessionToken(sessionToken ) {
     }
   
     for(let email in sessionTokens) {
-        console.log("sessionTokens[email].sessionToken: " + sessionTokens[email].token);
+        // console.log("sessionTokens[email].sessionToken: " + sessionTokens[email].token);
         if(sessionTokens[email].token === sessionToken && sessionTokens[email].expires > Date.now()) {
             // console.log("sessionTokens[email].sessionToken: " + sessionTokens[email].sessionToken);
             return true;
         }
     }
     
-    console.log('not matched');
+    // console.log('not matched');
     return false;  
 }
 

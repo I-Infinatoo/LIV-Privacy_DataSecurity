@@ -46,14 +46,14 @@ const upload = multer({
 router.get('/', (req, res) => {
   // first verify the token, then move further 
   const sessionToken = req.cookies.sessionToken;
-    console.log('got token from req');
+    // console.log('got token from req');
 
     // Check if the session token is valid
     if (tokenUtils.isValidSessionToken(sessionToken)) {
         res.sendFile(path.join(__dirname, '/../public/share.html'));
     } else {
         // Redirect to the login page
-        console.log('token not verified, redirecting to login route');
+        // console.log('token not verified, redirecting to login route');
         // alert('Retry! Login Again');
         res.redirect('/login');
     }
@@ -65,7 +65,7 @@ router.post('/', upload.fields([
         {name: 'encFile', optional: true}
     ]), (req, res) => {
 
-    console.log('inside the share route');
+    // console.log('inside the share route');
     let { sendOrDec, email, name, keyFilePassphrase } = req.body;
     
     // sanitize
@@ -90,8 +90,8 @@ router.post('/', upload.fields([
         // 2. when class is executed, secure the `*.json` file with the passphrase
         // 3. delete the uploaded enc_file
         // 4. email the `*.json` file to the recipient
-        console.log('selected to send');
-        console.log(`encFilePath: ${encFilePath}`);
+        // console.log('selected to send');
+        // console.log(`encFilePath: ${encFilePath}`);
         
         // 1. call the `send`-java class
         // java-program will return the key-file-name 
@@ -99,17 +99,33 @@ router.post('/', upload.fields([
         let dataReceivedFromProgram=null;
 
         javaProcess.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+          // console.log(`stdout: ${data}`);
           dataReceivedFromProgram=data.toString().trim(); 
           dataReceivedFromProgram = path.join(__dirname, '/../UploadedFiles', dataReceivedFromProgram);
         });
         
         javaProcess.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
+            // console.error(`stderr: ${data}`);
+            res.status(404).send(`
+            <html>
+              <head>
+                <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+                <title>LIV: Status</title>
+                <link rel="stylesheet" type="text/css" href="/css/route.css">
+              </head>
+              <body>
+                <div id="message">Internal error. Please try again.</div>
+                <p id="first">Back to<a href="/welcome"> Home</a></p>
+                <script>8
+                  document.getElementById("message").style.color = "black";
+                </script>
+              </body>
+            </html>
+          `);
         });
         
         javaProcess.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
+            // console.log(`child process exited with code ${code}`);
             
             let filePath=dataReceivedFromProgram;
             filePath=filePath.replace(/\\/g, '\\\\');
@@ -127,9 +143,9 @@ router.post('/', upload.fields([
                       //     return;
                       //   }
                       
-                      //   console.log(`${filePath} is deleted`);
+                      //   // console.log(`${filePath} is deleted`);
                       // })
-                      console.log(`sent email and now deleting file: ${filePath}`);
+                      // console.log(`sent email and now deleting file: ${filePath}`);
                       deleteFile.checkAndDeleteFile(filePath);
                       // provide the link for home page
                         // res.send(`<div id="message">${dataReceivedFromProgram}<br>Email sent to ${email}</div>
@@ -172,7 +188,7 @@ router.post('/', upload.fields([
                         
                         //   console.log(`${filePath} is deleted`);
                         // })
-                        console.log(`no email sent and now deleting file: ${filePath}`);
+                        // console.log(`no email sent and now deleting file: ${filePath}`);
                         deleteFile.checkAndDeleteFile(filePath);
                             // res.send(`<div id="message">Error in sending email.</div>
                             // <p id="first">Back to<a href="/share.html"> Share</a></p>
@@ -216,7 +232,7 @@ router.post('/', upload.fields([
                   
                   //   console.log(`${filePath} is deleted`);
                   // })
-                  console.log(`unable to protect file and now deleting file: ${filePath}`);
+                  // console.log(`unable to protect file and now deleting file: ${filePath}`);
                   deleteFile.checkAndDeleteFile(filePath);
 
                   // res.send(`<div id="message">Error occured while protecting file.</div>
@@ -268,17 +284,33 @@ router.post('/', upload.fields([
             let dataReceivedFromProgram=null;
 
             javaProcess.stdout.on('data', (data) => {
-              console.log(`stdout: ${data}`);
+              // console.log(`stdout: ${data}`);
               dataReceivedFromProgram=data.toString(); 
               dataReceivedFromProgram = path.join(__dirname, '/../UploadedFiles', dataReceivedFromProgram);
             });
             
             javaProcess.stderr.on('data', (data) => {
-                console.error(`stderr: ${data}`);
+                // console.error(`stderr: ${data}`);
+                res.status(404).send(`
+                <html>
+                  <head>
+                    <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+                    <title>LIV: Status</title>
+                    <link rel="stylesheet" type="text/css" href="/css/route.css">
+                  </head>
+                  <body>
+                    <div id="message">Internal error. Please try again.</div>
+                    <p id="first">Back to<a href="/welcome"> Home</a></p>
+                    <script>8
+                      document.getElementById("message").style.color = "black";
+                    </script>
+                  </body>
+                </html>
+              `);
             });
             
             javaProcess.on('close', (code) => {
-              console.log(`child process exited with code ${code}`);
+              // console.log(`child process exited with code ${code}`);
 
               protectWithPassword(keyFilePath, keyFilePassphrase, (isEncrypted)=>{
                 if(isEncrypted) {
@@ -322,7 +354,7 @@ router.post('/', upload.fields([
                     
                     //   console.log(`${filePath} is deleted`);
                     // })
-                    console.log(`after dec. and now deleting file: ${keyFilePath}`);
+                    // console.log(`after dec. and now deleting file: ${keyFilePath}`);
                     deleteFile.checkAndDeleteFile(keyFilePath);
                 }
               })

@@ -32,10 +32,10 @@ function sendEmailTo(filePath, name, email, callback) {
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log(error);
+            // console.log(error);
             callback(false);
         } else {
-            console.log('Email sent: ' + info.response);
+            // console.log('Email sent: ' + info.response);
             callback(true);
         }
     });
