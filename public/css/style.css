@@ -2,10 +2,11 @@ body{
     /* background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE1mBYLwDXbV6SwDT6aDN6HUiCWv6PuuK3pQ&usqp=CAU); */
     /* background-repeat: no-repeat; */
     /* background-color: rgb(26, 31, 123); */
-    background-image: url("../assets/backgroundImage.jfif");
+    background: url("../assets/wallpaper.png") no-repeat center center fixed;
+    background-size: cover;
 }
 h1{
-    margin-top: 3%;
+    margin-top: 5%;
     color: rgb(213, 202, 202);
     text-align: center;
     font-family:  Georgia, Verdana, sans-serif;
@@ -13,10 +14,11 @@ h1{
 }
 form,#message{
     border: solid rgb(213, 202, 202);;
+    box-shadow: #aeb0b1 0px 0px 20px;
     border-radius: 5pc;
     padding: 2%;
     margin-top: 1%;
-    margin-left:34%;
+    margin-left:35%;
     margin-right: 15%;
     width:25%;
 }
@@ -27,7 +29,8 @@ input[type=file]{
     margin-top: 5%;
     margin-bottom: 5%;
     background: #aeb0b1;
-	color: white;
+	/* color: white; */
+	color: black;
 	border-style: outset;
     border-radius: 10px;
 	border-color: #000000;
@@ -92,6 +95,10 @@ input[type=submit]{
 
 /* for submit button */
 .submit{
+
+    display: flex;
+    justify-content: center;
+
     background: #aeb0b1;
 	color: white;
 	border-style: outset;
@@ -100,7 +107,7 @@ input[type=submit]{
     height: 30px;
 	border-color: #000000;
     margin-top: 5%;
-    margin-left: 35%;
+    margin-left: 40%;
 	/* height: 500px; */
 	width: 100px;
 	font: bold15px arial,sans-serif;
@@ -112,7 +119,8 @@ input[type=submit]{
 .level,.typeEncDec,.isShare{
     accent-color: rgb(125, 203, 251);
     /* color: aliceblue; */
-    color: black;
+    /* color: black; */
+    color: white;
     /* text-align: center; */
     /* margin: 25%; */
     font-family:Georgia, Verdana, sans-serif;
@@ -122,29 +130,32 @@ input[type=submit]{
 .rbuttons,#encLevel{
     text-align: center;
     /* accent-color: rgb(125, 203, 251); */
-    color: black;
+    /* color: black; */
+    color: white;
     /* margin-left: 25%; */
 }
 
 label #email,#password,#path,#cpassword,#name,#keyFilePassphrase{
-  
+    
     /* padding-left:10%; */
     text-align: center;
     font-family:Georgia, Verdana, sans-serif;
     margin-top:10%;
-     margin-left:25%;
-    color: black;
-     background-color: rgba(218, 214, 214, 0.295);
+    margin-left:25%;
+    /* color: black; */
+    color: white;
+    background-color: rgba(218, 214, 214, 0.295);
     height: 40px;
     width:50%;
     border-radius: 2pc;
-
+    
 }
 
 p{
     /* color:rgb(213, 202, 202);   */
     /* color: aliceblue; */
-    color: black;
+    /* color: black; */
+    color: white;
     font-family:Georgia, Verdana, sans-serif;
     font-size:large;
     margin-top:10px;
@@ -156,7 +167,8 @@ p{
 p #first{
     /* color:rgb(213, 202, 202);   */
     /* color: aliceblue; */
-    color: black;
+    /* color: black; */
+    color: white;
     font-family:Georgia, Verdana, sans-serif;
     font-size:medium;
     margin-top:10px;
@@ -167,9 +179,16 @@ p #first{
 a{
     /* color:rgb(213, 202, 202);   */
     /* color: aliceblue; */
-    color: black;
+    /* color: black; */
+    color: white;
     font-family:Georgia, Verdana, sans-serif;
     font-size: medium;
     margin-top:10px;
     margin-bottom:10px;
+}
+
+input::placeholder {
+    font-weight: bold;
+    opacity: 0.5;
+    color: #EDE6E3;
 }

@@ -171,11 +171,12 @@ router.post('/', upload.fields([
                             <link rel="stylesheet" type="text/css" href="/css/route.css">
                           </head>
                           <body>
+                            <h1>LIV</h1>
                             <div id="message">${dataReceivedFromProgram}<br>Email sent to ${email}</div>
                             <p id="first">Back to<a href="/welcome"> Home</a></p>
-                            <script>8
-                              document.getElementById("message").style.color = "black";
-                            </script>
+                            // <script>
+                            //   document.getElementById("message").style.color = "black";
+                            // </script>
                           </body>
                         </html>
                       `);
@@ -344,11 +345,12 @@ router.post('/', upload.fields([
                       <link rel="stylesheet" type="text/css" href="/css/route.css">
                     </head>
                     <body>
+                      <h1>LIV</h1>
                       <div id="message">${dataReceivedFromProgram}</div>
                       <p id="first">Back to<a href="/welcome"> Home</a></p>
-                      <script>
-                        document.getElementById("message").style.color = "black";
-                      </script>
+                      // <script>
+                      //   document.getElementById("message").style.color = "black";
+                      // </script>
                     </body>
                   </html>
                 `);
