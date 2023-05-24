@@ -59,8 +59,8 @@ function removePassword(filePath, password, callback) {
 }
 
 function createPassword(email, name) {
-    // 4 letters before '@' from email 
-    // 4 letters from name (starting) (all caps)
+    // 4 letters or minimum before '@' from email 
+    // 4 letters or minimum from name (starting)
 
     // ishurajan@gmail.com
     const endIdx = email.indexOf("@");

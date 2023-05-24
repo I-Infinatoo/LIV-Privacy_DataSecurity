@@ -43,7 +43,7 @@ const upload = multer({
 });
 
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   // first verify the token, then move further 
   const sessionToken = req.cookies.sessionToken;
     // console.log('got token from req');
@@ -63,7 +63,7 @@ router.post('/', upload.fields([
         {name: 'keyFile', optional: true}, 
         {name: 'receivedFile', optional: true}, 
         {name: 'encFile', optional: true}
-    ]), (req, res) => {
+    ]), (req, res, next) => {
 
     // console.log('inside the share route');
     let { sendOrDec, email, name, keyFilePassphrase } = req.body;
@@ -106,22 +106,24 @@ router.post('/', upload.fields([
         
         javaProcess.stderr.on('data', (data) => {
             // console.error(`stderr: ${data}`);
-            res.status(404).send(`
-            <html>
-              <head>
-                <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
-                <title>LIV: Status</title>
-                <link rel="stylesheet" type="text/css" href="/css/route.css">
-              </head>
-              <body>
-                <div id="message">Internal error. Please try again.</div>
-                <p id="first">Back to<a href="/welcome"> Home</a></p>
-                <script>8
-                  document.getElementById("message").style.color = "black";
-                </script>
-              </body>
-            </html>
-          `);
+          //   res.status(404).send(`
+          //   <html>
+          //     <head>
+          //       <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+          //       <title>LIV: Status</title>
+          //       <link rel="stylesheet" type="text/css" href="/css/route.css">
+          //     </head>
+          //     <body>
+          //       <div id="message">Internal error. Please try again.</div>
+          //       <p id="first">Back to<a href="/welcome"> Home</a></p>
+          //       <script>8
+          //         document.getElementById("message").style.color = "black";
+          //       </script>
+          //     </body>
+          //   </html>
+          // `);
+          return next(Object.assign(new Error('Internal server error. Please try again.'), { statusCode: 404 }));
+
         });
         
         javaProcess.on('close', (code) => {
@@ -204,22 +206,24 @@ router.post('/', upload.fields([
                             // </script>
                             // `);
                             // 503 Service Unavailable
-                            res.status(503).send(`
-                            <html>
-                              <head>    
-                                <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
-                                <title>LIV: Status</title>
-                                <link rel="stylesheet" type="text/css" href="/css/route.css">
-                              </head>
-                              <body>
-                                <div id="message">Error in sending email.</div>
-                                <p id="first">Back to<a href="/share"> Share</a></p>
-                                <script>
-                                  document.getElementById("message").style.color = "black";
-                                </script>
-                              </body>
-                            </html>
-                          `);
+                          //   res.status(503).send(`
+                          //   <html>
+                          //     <head>    
+                          //       <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+                          //       <title>LIV: Status</title>
+                          //       <link rel="stylesheet" type="text/css" href="/css/route.css">
+                          //     </head>
+                          //     <body>
+                          //       <div id="message">Error in sending email.</div>
+                          //       <p id="first">Back to<a href="/share"> Share</a></p>
+                          //       <script>
+                          //         document.getElementById("message").style.color = "black";
+                          //       </script>
+                          //     </body>
+                          //   </html>
+                          // `);
+                          return next(Object.assign(new Error('Error in sending email. Please try again.'), { statusCode: 503 }));
+
                         }
                     });
                 } else {
@@ -249,22 +253,24 @@ router.post('/', upload.fields([
                   // </script>
                   // `);
                   // 501 Not Implemented
-                  res.status(501).send(`
-                  <html>
-                    <head>
-                      <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
-                      <title>LIV: Status</title>
-                      <link rel="stylesheet" type="text/css" href="/css/route.css">
-                    </head>
-                    <body>
-                      <div id="message">Error occured while protecting file.</div>
-                      <p id="first">Back to<a href="/share"> Share</a></p>
-                      <script>
-                        document.getElementById("message").style.color = "black";
-                      </script>
-                    </body>
-                  </html>
-                `);
+                //   res.status(501).send(`
+                //   <html>
+                //     <head>
+                //       <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+                //       <title>LIV: Status</title>
+                //       <link rel="stylesheet" type="text/css" href="/css/route.css">
+                //     </head>
+                //     <body>
+                //       <div id="message">Error occured while protecting file.</div>
+                //       <p id="first">Back to<a href="/share"> Share</a></p>
+                //       <script>
+                //         document.getElementById("message").style.color = "black";
+                //       </script>
+                //     </body>
+                //   </html>
+                // `);
+                return next(Object.assign(new Error('Error occured while protecting file. Please try again.'), { statusCode: 501 }));
+
                 }  
                 
             });
@@ -291,22 +297,24 @@ router.post('/', upload.fields([
             
             javaProcess.stderr.on('data', (data) => {
                 // console.error(`stderr: ${data}`);
-                res.status(404).send(`
-                <html>
-                  <head>
-                    <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
-                    <title>LIV: Status</title>
-                    <link rel="stylesheet" type="text/css" href="/css/route.css">
-                  </head>
-                  <body>
-                    <div id="message">Internal error. Please try again.</div>
-                    <p id="first">Back to<a href="/welcome"> Home</a></p>
-                    <script>8
-                      document.getElementById("message").style.color = "black";
-                    </script>
-                  </body>
-                </html>
-              `);
+              //   res.status(404).send(`
+              //   <html>
+              //     <head>
+              //       <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+              //       <title>LIV: Status</title>
+              //       <link rel="stylesheet" type="text/css" href="/css/route.css">
+              //     </head>
+              //     <body>
+              //       <div id="message">Internal error. Please try again.</div>
+              //       <p id="first">Back to<a href="/welcome"> Home</a></p>
+              //       <script>8
+              //         document.getElementById("message").style.color = "black";
+              //       </script>
+              //     </body>
+              //   </html>
+              // `);
+              return next(Object.assign(new Error('Internal server error. Please try again.'), { statusCode: 404 }));
+
             });
             
             javaProcess.on('close', (code) => {
@@ -374,22 +382,24 @@ router.post('/', upload.fields([
             //               </script>
             //   `);
             // 401 Unauthorized
-            res.status(401).send(`
-            <html>
-              <head>
-                <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
-                <title>LIV: Status</title>
-                <link rel="stylesheet" type="text/css" href="/css/route.css">
-              </head>
-              <body>
-                <div id="message">Invalid Password or Key file</div>
-                <p id="first">Back to<a href="/share"> Share</a></p>
-                <script>
-                  document.getElementById("message").style.color = "black";
-                </script>
-              </body>
-            </html>
-          `);
+          //   res.status(401).send(`
+          //   <html>
+          //     <head>
+          //       <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+          //       <title>LIV: Status</title>
+          //       <link rel="stylesheet" type="text/css" href="/css/route.css">
+          //     </head>
+          //     <body>
+          //       <div id="message">Invalid Password or Key file</div>
+          //       <p id="first">Back to<a href="/share"> Share</a></p>
+          //       <script>
+          //         document.getElementById("message").style.color = "black";
+          //       </script>
+          //     </body>
+          //   </html>
+          // `);
+          return next(Object.assign(new Error('Invalid Password or Key file. Please try again.'), { statusCode: 401 }));
+
           }
         })
     }

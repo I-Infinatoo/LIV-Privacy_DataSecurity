@@ -17,7 +17,7 @@ const tokenUtils = require('../utils/sessionTokenUtil');    // to manage tokens
 const deleteFile = require('../utils/deleteFileUtil');   // to manage logout
 
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   // console.log(path.parse(__dirname));
   // res.sendFile('./../public/loginPage.html');
   const filePath=path.join(__dirname,'./../session_tokens.json');
@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/../public/index.html'));
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   let { email, password } = req.body;
   const credentialsPath = 'credentials.json';
   
@@ -44,7 +44,11 @@ router.post('/', (req, res) => {
 
   // Check if user with the provided email exists
   if (!credentials[email]) {
-    return res.status(401).send('Invalid email or password');
+    // return res.status(401).send('Invalid email or password');
+    // const error = new Error('Invalid email or password');
+    // error.statusCode = 401;
+    // return next(error);
+    return next(Object.assign(new Error('Invalid email or password'), { statusCode: 401 }));
   }
 
   // Retrieve salt and hash from credentials
@@ -54,7 +58,11 @@ router.post('/', (req, res) => {
   const passwordIsValid = passwordUtils.verifyPassword(password, salt, hash);
 
   if (!passwordIsValid) {
-    return res.status(401).send('Invalid email or password');
+    // return res.status(401).send('Invalid email or password');
+    // const error = new Error('Invalid email or password');
+    // error.statusCode = 401;
+    // return next(error);
+    return next(Object.assign(new Error('Invalid email or password'), { statusCode: 401 }));
   }
 
   // generate a session token

@@ -17,7 +17,7 @@ router.get('/', (req, res) =>{
 
 
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
 
   let { email, password } = req.body;
  
@@ -34,7 +34,9 @@ router.post('/', (req, res) => {
     const data = JSON.parse(fs.readFileSync(credentialsPath));
 
     if(data.trim !== '') { // credentials.json has prior content
-      return res.status(400).send('User already exists');
+      // return res.status(400).send('User already exists');
+      return next(Object.assign(new Error('User already exists'), { statusCode: 400 }));
+
     }
     
     credentials = JSON.parse(data);

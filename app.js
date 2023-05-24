@@ -45,7 +45,7 @@ app.use('/share', shareRoute);
 app.use((err, req, res, next) => {
   // console.error(err.stack);
   // res.status(500).send('Internal server error');
-  res.status(500).send(`
+  res.status(err.statusCode || 500).send(`
   <html>
     <head>
       <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
@@ -53,14 +53,17 @@ app.use((err, req, res, next) => {
       <link rel="stylesheet" type="text/css" href="/css/route.css">
     </head>
     <body>
-      <div id="message">Internal server error. Try again after restarting the server.</div>
+      <div id="message">${err.message}.</div>
       <p id="first">Back to<a href="/welcome"> Home</a></p>
-      <script>8
+      <script>
         document.getElementById("message").style.color = "black";
       </script>
     </body>
   </html>
 `);
+
+  // prevent server from stoping
+  next(err);
 });
 
 // check and start the server on the next available port

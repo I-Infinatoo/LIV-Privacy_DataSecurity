@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
     }
 });
 
-router.post('/', upload.single('file'), function (req, res) {
+router.post('/', upload.single('file'), function (req, res, next) {
     if (req.file) {
       // Get the path of the uploaded file
       const filePath = path.join(__dirname, '..', 'UploadedFiles', req.file.originalname);
@@ -71,22 +71,23 @@ router.post('/', upload.single('file'), function (req, res) {
   
         javaProcess.stderr.on('data', (data) => {
           // console.error(`stderr: ${data}`);
-          res.status(404).send(`
-          <html>
-            <head>
-              <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
-              <title>LIV: Status</title>
-              <link rel="stylesheet" type="text/css" href="/css/route.css">
-            </head>
-            <body>
-              <div id="message">Internal error. Please try again.</div>
-              <p id="first">Back to<a href="/welcome"> Home</a></p>
-              <script>8
-                document.getElementById("message").style.color = "black";
-              </script>
-            </body>
-          </html>
-        `);
+        //   res.status(404).send(`
+        //   <html>
+        //     <head>
+        //       <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+        //       <title>LIV: Status</title>
+        //       <link rel="stylesheet" type="text/css" href="/css/route.css">
+        //     </head>
+        //     <body>
+        //       <div id="message">Internal error. Please try again.</div>
+        //       <p id="first">Back to<a href="/welcome"> Home</a></p>
+        //       <script>8
+        //         document.getElementById("message").style.color = "black";
+        //       </script>
+        //     </body>
+        //   </html>
+        // `);
+        return next(Object.assign(new Error('Internal server error. Please try again.'), { statusCode: 404 }));
         });
   
         javaProcess.on('close', (code) => {
@@ -141,7 +142,7 @@ router.post('/', upload.single('file'), function (req, res) {
   
      } else if (typeEncDec == 'decrypt') {
         // console.log('Decyption is selected');
-  
+
         const javaProcess = spawn('java', ['-cp', './javaProgram', 'decryptionJava', filePath]);
         let dataReceivedFromProgram='';
 
@@ -162,12 +163,16 @@ router.post('/', upload.single('file'), function (req, res) {
             <body>
               <div id="message">Internal error. Please try again.</div>
               <p id="first">Back to<a href="/welcome"> Home</a></p>
-              <script>8
+              <script>
                 document.getElementById("message").style.color = "black";
               </script>
             </body>
           </html>
         `);
+        // return next(Object.assign(new Error('Internal server error. Please try again. Perr'), { statusCode: 404 }));
+          // const error = new Error('Internal server error. Please try again. prr');
+          // error.statusCode = 404;
+          // next(error);
         });
   
         javaProcess.on('close', (code) => {
@@ -185,7 +190,7 @@ router.post('/', upload.single('file'), function (req, res) {
         //     console.log(`${filePath} is deleted`);
         // })
         // console.log(`uploaded enc. file and now deleting file: ${filePath}`);
-        deleteFile.checkAndDeleteFile(filePath);
+          deleteFile.checkAndDeleteFile(filePath);
 
           // provide the link to home page
         //   res.send(`<div id="message">${dataReceivedFromProgram}</div>
@@ -201,22 +206,22 @@ router.post('/', upload.single('file'), function (req, res) {
         //     document.head.appendChild(link);
         //   </script>
         // `);
-        res.status(200).send(`
-        <html>
-          <head>
-            <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
-            <title>LIV: Status</title>
-            <link rel="stylesheet" type="text/css" href="/css/route.css">
-          </head>
-          <body>
-            <div id="message">${dataReceivedFromProgram}</div>
-            <p id="first">Back to<a href="/welcome"> Home</a></p>
-            <script>
-              document.getElementById("message").style.color = "black";
-            </script>
-          </body>
-        </html>
-      `);
+          res.status(200).send(`
+            <html>
+              <head>
+              <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+              <title>LIV: Status</title>
+              <link rel="stylesheet" type="text/css" href="/css/route.css">
+              </head>
+              <body>
+              <div id="message">${dataReceivedFromProgram}</div>
+              <p id="first">Back to<a href="/welcome"> Home</a></p>
+              <script>
+                document.getElementById("message").style.color = "black";
+              </script>
+              </body>
+            </html>
+          `);
         });
       }
   
@@ -282,23 +287,25 @@ router.post('/', upload.single('file'), function (req, res) {
       // res.send('No file was uploaded.');
       // res.render('upload', { message: 'No file was uploaded.', output: '' });
       // 400 Bad Request
-      res.status(400).send(`
-      <html>
-        <head>
-          <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
-          <title>LIV: Status</title>
-          <link rel="stylesheet" type="text/css" href="/css/route.css">
-        </head>
-        <body>
-          <div id="message">No file was uploaded.</div>
-          <p id="first">Back to<a href="/welcome"> Home</a></p>
-          <script>
-            document.getElementById("message").style.color = "black";
-          </script>
-        </body>
-      </html>
-    `);
-    }
+    //   res.status(400).send(`
+    //   <html>
+    //     <head>
+    //       <link rel="icon" type="image/x-icon" href="/assets/Favicon3.png">
+    //       <title>LIV: Status</title>
+    //       <link rel="stylesheet" type="text/css" href="/css/route.css">
+    //     </head>
+    //     <body>
+    //       <div id="message">No file was uploaded.</div>
+    //       <p id="first">Back to<a href="/welcome"> Home</a></p>
+    //       <script>
+    //         document.getElementById("message").style.color = "black";
+    //       </script>
+    //     </body>
+    //   </html>
+    // `);
+    return next(Object.assign(new Error('No file was uploaded.'), { statusCode: 400 }));
+
+  }
   });
 
 module.exports = router
