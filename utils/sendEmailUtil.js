@@ -6,9 +6,9 @@ let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'liv.project.final@gmail.com',
-        pass: 'lrikioilqlsuroqd'
+        pass: 'place the key here'
         // user: 'herokusa81@gmail.com',
-        // pass: 'zdbhccqpjfeipynh'
+        // pass: '<place the key>'
     }
 });
 
